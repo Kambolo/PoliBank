@@ -21,4 +21,13 @@ public class SignInController {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void switchToDesktop(ActionEvent evt) throws IOException {
+        root = FXMLLoader.load(this.getClass().getResource("Desktop.fxml"));
+        scene = new Scene(root);
+        stage = (Stage)((Node)evt.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
 }

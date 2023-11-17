@@ -27,7 +27,7 @@
             <Font name="Lucida Console" size="36.0" />
          </font>
       </Label>
-      <Button layoutX="294.0" layoutY="103.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="75.0" text="Zaloguj" />
+      <Button layoutX="294.0" layoutY="103.0" mnemonicParsing="false" onAction="#switchToDesktop" prefHeight="39.0" prefWidth="75.0" text="Zaloguj" />
       <Button layoutX="294.0" layoutY="149.0" mnemonicParsing="false" onAction="#switchToSignUp" prefHeight="39.0" prefWidth="75.0" text="Zarejestruj " />
       <Hyperlink layoutX="276.0" layoutY="193.0" text="Zapomniałeś hasła?" />
    </children>
