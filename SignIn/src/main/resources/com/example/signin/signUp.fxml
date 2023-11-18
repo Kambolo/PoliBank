@@ -18,8 +18,8 @@
       <Label layoutX="40.0" layoutY="64.0" text="E-mail" />
       <TextField layoutX="38.0" layoutY="81.0" prefHeight="25.0" prefWidth="160.0" />
       <TextField layoutX="38.0" layoutY="134.0" prefHeight="25.0" prefWidth="160.0" />
-      <PasswordField layoutX="38.0" layoutY="294.0" prefHeight="25.0" prefWidth="160.0" />
-      <PasswordField layoutX="38.0" layoutY="239.0" prefHeight="25.0" prefWidth="160.0" />
+      <PasswordField fx:id="passwdField2" layoutX="38.0" layoutY="294.0" prefHeight="25.0" prefWidth="160.0" />
+      <PasswordField fx:id="passwdField1" layoutX="38.0" layoutY="239.0" prefHeight="25.0" prefWidth="160.0" />
       <Label layoutX="38.0" layoutY="117.0" text="Imię" />
       <Label layoutX="36.0" layoutY="171.0" text="Nazwisko" />
       <Label layoutX="37.0" layoutY="222.0" prefHeight="17.0" prefWidth="40.0" text="Hasło" />
@@ -28,8 +28,9 @@
       <Label layoutX="249.0" layoutY="64.0" text="Płeć" />
       <Button layoutX="262.0" layoutY="288.0" mnemonicParsing="false" onAction="#switchToSignIn" prefHeight="31.0" prefWidth="92.0" text="Zaloguj" />
       <Label layoutX="267.0" layoutY="269.0" text="Mam już konto " />
-      <Button layoutX="262.0" layoutY="149.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="92.0" text="Zarejestruj się" />
+      <Button fx:id="signUpButton" layoutX="262.0" layoutY="149.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="92.0" text="Zarejestruj się" />
       <CheckBox fx:id="female" layoutX="249.0" layoutY="85.0" mnemonicParsing="false" onAction="#femaleChecked" text="Kobieta" />
       <CheckBox fx:id="male" layoutX="326.0" layoutY="85.0" mnemonicParsing="false" onAction="#maleChecked" text="Mężczyzna" />
+      <Label fx:id="conditionLabel" layoutX="200.0" layoutY="243.0" text="Hasło musi zawierać przynajmniej 8 znaków" />
    </children>
 </AnchorPane>
