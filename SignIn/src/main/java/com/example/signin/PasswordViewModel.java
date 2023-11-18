@@ -1,6 +1,5 @@
 package com.example.signin;
 
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,39 +21,20 @@ public class PasswordViewModel {
         return disableSignUpProperty;
     }
 
-    public void setDisableSignUpProperty(BooleanProperty disableSignUpProperty) {
-        this.disableSignUpProperty = disableSignUpProperty;
-    }
-
     public BooleanProperty getDisablePasswdField2Property() {
         return disablePasswdField2Property;
-    }
-
-    public void setDisablePasswdField2Property(BooleanProperty disablePasswdField2Property) {
-        this.disablePasswdField2Property = disablePasswdField2Property;
     }
 
     public BooleanProperty getConditionProperty() {
         return conditionProperty;
     }
 
-    public void setConditionProperty(BooleanProperty conditionProperty) {
-        this.conditionProperty = conditionProperty;
-    }
-
     public StringProperty getPasswd1Property() {
         return passwd1Property;
-    }
-
-    public void setPasswd1Property(StringProperty passwd1Property) {
-        this.passwd1Property = passwd1Property;
     }
 
     public StringProperty getPasswd2Property() {
         return passwd2Property;
     }
 
-    public void setPasswd2Property(StringProperty passwd2Property) {
-        this.passwd2Property = passwd2Property;
-    }
 }
