@@ -22,7 +22,6 @@ import java.util.ResourceBundle;
 public class DesktopController{
     @FXML
     private BorderPane contentContainer;
-    private String[] curr = {"PLN", "EUR", "GBP", "USD"};
     /**
      * Zamiana zawartośći głownego kontenera z treścią
      * @param evt zdażenie(wciśnięcie przycisku)
