@@ -11,13 +11,13 @@ import java.util.ResourceBundle;
 
 public class ExchangeController implements Initializable {
     @FXML
-    private ChoiceBox<String> currency2ID;
+    private ChoiceBox<String> currencyID;
 
     ObservableList<String> choices = FXCollections.observableArrayList("EUR","GBP", "USD");
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        currency2ID.setValue(choices.get(1));
-        currency2ID.setItems(choices);
+        currencyID.setValue(choices.get(1));
+        currencyID.setItems(choices);
     }
 }
