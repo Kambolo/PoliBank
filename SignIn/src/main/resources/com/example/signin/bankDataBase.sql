@@ -1,3 +1,15 @@
+<<<<<<< HEAD:SignIn/src/main/resources/com/example/signin/bank.sql
+=======
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Lis 18, 2023 at 11:34 AM
+-- Wersja serwera: 10.4.28-MariaDB
+-- Wersja PHP: 8.2.4
+
+>>>>>>> b66bd56892cb57ab9f06582208f2c60439bcdd2a:SignIn/src/main/resources/com/example/signin/bankDataBase.sql
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -168,12 +180,6 @@ ALTER TABLE `loans`
 --
 ALTER TABLE `registers`
   MODIFY `idRegister` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `wallet`
---
-ALTER TABLE `wallet`
-  MODIFY `idCustomer` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

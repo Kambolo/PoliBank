@@ -6,7 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -20,6 +20,22 @@ public class SignUpController {
     private CheckBox female;
     @FXML
     private CheckBox male;
+    @FXML
+    private PasswordField passwdField1, passwdField2;
+    @FXML
+    private Button signUpButton;
+    @FXML
+    private Label conditionLabel;
+    private PasswordViewModel passwordViewModel = new PasswordViewModel();
+
+    @FXML
+    public void initialize(){
+        passwdField1.textProperty().bindBidirectional(passwordViewModel.getPasswd1Property());
+        passwdField2.textProperty().bindBidirectional(passwordViewModel.getPasswd2Property());
+        conditionLabel.visibleProperty().bind(passwordViewModel.getConditionProperty());
+        passwdField2.disableProperty().bind(passwordViewModel.getDisablePasswdField2Property());
+        signUpButton.disableProperty().bind(passwordViewModel.getDisableSignUpProperty());
+    }
 
     public void switchToSignIn(ActionEvent evt) throws IOException {
         root = FXMLLoader.load(getClass().getResource("signIn.fxml"));
