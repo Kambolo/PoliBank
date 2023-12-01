@@ -26,6 +26,12 @@ public class SignUpController {
     private Button signUpButton;
     @FXML
     private Label conditionLabel;
+    @FXML
+    private TextField emailField;
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextField surnameField;
     private PasswordViewModel passwordViewModel = new PasswordViewModel();
 
     @FXML
@@ -35,6 +41,9 @@ public class SignUpController {
         conditionLabel.visibleProperty().bind(passwordViewModel.getConditionProperty());
         passwdField2.disableProperty().bind(passwordViewModel.getDisablePasswdField2Property());
         signUpButton.disableProperty().bind(passwordViewModel.getDisableSignUpProperty());
+        emailField.textProperty().bindBidirectional(passwordViewModel.getEmailProperty());
+        nameField.textProperty().bindBidirectional(passwordViewModel.getNameProperty());
+        surnameField.textProperty().bindBidirectional(passwordViewModel.getSurnameProperty());
     }
 
     public void switchToSignIn(ActionEvent evt) throws IOException {

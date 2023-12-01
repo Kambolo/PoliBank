@@ -22,8 +22,8 @@ public class SignInController {
         stage.show();
     }
 
-    public void switchToDesktop(ActionEvent evt) throws IOException {
-        root = FXMLLoader.load(this.getClass().getResource("Desktop.fxml"));
+    public void switchToMenu(ActionEvent evt) throws IOException {
+        root = FXMLLoader.load(this.getClass().getResource("menu.fxml"));
         scene = new Scene(root);
         stage = (Stage)((Node)evt.getSource()).getScene().getWindow();
         stage.setScene(scene);

@@ -16,14 +16,14 @@
          </font>
       </Label>
       <Label layoutX="40.0" layoutY="64.0" text="E-mail" />
-      <TextField layoutX="38.0" layoutY="81.0" prefHeight="25.0" prefWidth="160.0" />
-      <TextField layoutX="38.0" layoutY="134.0" prefHeight="25.0" prefWidth="160.0" />
+      <TextField fx:id="emailField" layoutX="38.0" layoutY="81.0" prefHeight="25.0" prefWidth="160.0" />
+      <TextField fx:id="nameField" layoutX="38.0" layoutY="134.0" prefHeight="25.0" prefWidth="160.0" />
       <PasswordField fx:id="passwdField2" layoutX="38.0" layoutY="294.0" prefHeight="25.0" prefWidth="160.0" />
       <PasswordField fx:id="passwdField1" layoutX="38.0" layoutY="239.0" prefHeight="25.0" prefWidth="160.0" />
       <Label layoutX="38.0" layoutY="117.0" text="Imię" />
       <Label layoutX="36.0" layoutY="171.0" text="Nazwisko" />
       <Label layoutX="37.0" layoutY="222.0" prefHeight="17.0" prefWidth="40.0" text="Hasło" />
-      <TextField layoutX="38.0" layoutY="188.0" prefHeight="25.0" prefWidth="160.0" />
+      <TextField fx:id="surnameField" layoutX="38.0" layoutY="188.0" prefHeight="25.0" prefWidth="160.0" />
       <Label layoutX="41.0" layoutY="277.0" text="Powtórz hasło" />
       <Label layoutX="249.0" layoutY="64.0" text="Płeć" />
       <Button layoutX="262.0" layoutY="288.0" mnemonicParsing="false" onAction="#switchToSignIn" prefHeight="31.0" prefWidth="92.0" text="Zaloguj" />
