@@ -2,7 +2,7 @@ package com.example.signin;
 
 import java.math.BigDecimal;
 
-public class LoggedUser extends User implements StartOperations{
+public class BankCustomer extends User implements BankOperations {
 
     private int accountNumber;
     private Wallet wallet;
@@ -42,17 +42,6 @@ public class LoggedUser extends User implements StartOperations{
 
     @Override
     public void makeDeposit() {
-
-    }
-
-    @Override
-    public LoggedUser signIn() {
-        LoggedUser loggedUser = new LoggedUser();
-        return loggedUser;
-    }
-
-    @Override
-    public void SignUp() {
 
     }
 }

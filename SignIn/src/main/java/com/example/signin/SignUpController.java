@@ -10,6 +10,10 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class SignUpController {
     private Stage stage;
@@ -31,8 +35,9 @@ public class SignUpController {
     @FXML
     private TextField nameField;
     @FXML
-    private TextField surnameField;
+    private TextField lastnameField;
     private PasswordViewModel passwordViewModel = new PasswordViewModel();
+    private DbController dbController;
 
     @FXML
     public void initialize(){
@@ -43,7 +48,8 @@ public class SignUpController {
         signUpButton.disableProperty().bind(passwordViewModel.getDisableSignUpProperty());
         emailField.textProperty().bindBidirectional(passwordViewModel.getEmailProperty());
         nameField.textProperty().bindBidirectional(passwordViewModel.getNameProperty());
-        surnameField.textProperty().bindBidirectional(passwordViewModel.getSurnameProperty());
+        lastnameField.textProperty().bindBidirectional(passwordViewModel.getLastnameProperty());
+        setDbController(Main.getDbController());
     }
 
     public void switchToSignIn(ActionEvent evt) throws IOException {
@@ -53,6 +59,71 @@ public class SignUpController {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void switchToSignUpError(ActionEvent evt) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("signUpError.fxml"));
+        scene = new Scene(root);
+        stage = (Stage)((Node)evt.getSource()).getScene().getWindow();
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void signUp(ActionEvent evt) throws IOException, SQLException {
+        SignUpOperation signUpOperation = new SignUpOperation() {
+            @Override
+            public void signUp() throws SQLException, IOException {
+                String name = nameField.getText();
+                String lastname = lastnameField.getText();
+                String email = emailField.getText();
+                String password = passwdField1.getText();
+
+                try{
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+                    getDbController().setStatement(getDbController().getConnection().createStatement());
+
+                    String query;
+                    ResultSet resultSet;
+
+                    query = "SELECT COUNT(email) FROM customers WHERE email='%s'".formatted(email);
+                    resultSet = getDbController().getStatement().executeQuery(query);
+                    resultSet.next();
+                    if(resultSet.getInt(1) == 0) {
+
+                        query = "INSERT INTO customers VALUES (NULL, '%s', '%s', '%s', '%s')".formatted(name, lastname, email, password);
+                        getDbController().getStatement().executeUpdate(query);
+
+                        query = "SELECT idCustomer FROM customers WHERE email='%s' AND password='%s'".formatted(email, password);
+                        resultSet = getDbController().getStatement().executeQuery(query);
+                        resultSet.next();
+                        int id = resultSet.getInt(1);
+                        LocalDate localDate = LocalDate.now();
+
+                        query = "INSERT INTO wallet VALUES ('%d', 0, 0, 0, 0)".formatted(id);
+                        getDbController().getStatement().executeUpdate(query);
+
+                        query = "INSERT INTO registers VALUES (NULL, '%d', 'zarejestrowano', '%s')".formatted(id, localDate);
+                        getDbController().getStatement().executeUpdate(query);
+                    }
+                    else throw new IllegalArgumentException("emails locked");
+
+                } catch (IllegalArgumentException e){
+                    switchToSignUpError(evt);
+                } catch(SQLException e){
+                    System.out.println(e);
+                } catch (ClassNotFoundException e) {
+                    System.out.println(e);
+                } finally {
+                    getDbController().getStatement().close();
+                    getDbController().getConnection().close();
+                    System.out.println("to tez sie wykona");
+                }
+            }
+        };
+
+        signUpOperation.signUp();
     }
 
     public boolean femaleChecked(ActionEvent evt){
@@ -72,4 +143,7 @@ public class SignUpController {
         female.setSelected(true);
         return false;
     }
+
+    public DbController getDbController() {return dbController;}
+    public void setDbController(DbController dbController) {this.dbController = dbController;}
 }
