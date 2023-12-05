@@ -34,12 +34,22 @@ public class ExchangeController implements Initializable {
     Currencies currencies;
     @FXML
     private Label currency;
+    @FXML
+    private Label eurRate;
+    @FXML
+    private Label gbpRate;
+    @FXML
+    private Label usdRate;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         currencies = new Currencies();
         currencyID.setValue(choices.get(1));
         currencyID.setItems(choices);
+
+        eurRate.setText(String.valueOf(currencies.getEurSell()));
+        gbpRate.setText(String.valueOf(currencies.getGbpSell()));
+        usdRate.setText(String.valueOf(currencies.getUsdSell()));
 
         exchangeValue.textProperty().addListener((observable, oldValue, newValue)->{
             try{
@@ -60,6 +70,12 @@ public class ExchangeController implements Initializable {
         currencyID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
             try{
                 currency.setText(newValue);
+                if(exchangeValue.getText() == null)  afterExchangeValue.setText("0");
+                else{
+                    double val = Double.parseDouble(exchangeValue.getText());
+                    double result = getResult(val);
+                    afterExchangeValue.setText(String.valueOf(result));
+                }
             }catch(Exception e){
                 System.out.println("Error!");
             }
@@ -73,6 +89,7 @@ public class ExchangeController implements Initializable {
             case "USD" -> currencies.getUsdSell();
             default -> 0.0d;
         };
+        System.out.println(currencyID.getValue());
         return val * multiplier;
     }
 
