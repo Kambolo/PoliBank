@@ -33,7 +33,7 @@
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label layoutX="11.0" layoutY="257.0" text="Kwota do przewalutowania">
+        <Label layoutX="12.0" layoutY="257.0" text="Kwota do przewalutowania">
             <font>
                 <Font size="15.0" />
             </font>
@@ -49,25 +49,25 @@
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <TextField layoutX="194.0" layoutY="254.0" prefHeight="26.0" prefWidth="86.0" />
-        <Label layoutX="376.0" layoutY="96.0" text="Label" />
-        <Label layoutX="376.0" layoutY="141.0" text="Label" />
-        <Label layoutX="376.0" layoutY="182.0" text="Label" />
-        <Label layoutX="45.0" layoutY="284.0" text="Ilość waluty po przewalutowaniu">
+        <TextField fx:id="exchangeValue" layoutX="194.0" layoutY="254.0" prefHeight="26.0" prefWidth="86.0" />
+        <Label fx:id="eurRate" layoutX="376.0" layoutY="96.0" text="Label" />
+        <Label fx:id="gbpRate" layoutX="376.0" layoutY="141.0" text="Label" />
+        <Label fx:id="usdRate" layoutX="376.0" layoutY="182.0" text="Label" />
+        <Label layoutX="8.0" layoutY="284.0" prefHeight="21.0" prefWidth="220.0" text="Ilość waluty po przewalutowaniu">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label layoutX="274.0" layoutY="284.0" text="Ilość">
+        <Label fx:id="afterExchangeValue" layoutX="227.0" layoutY="284.0" prefHeight="21.0" prefWidth="113.0" text="0">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Label layoutX="325.0" layoutY="284.0" text="Waluta">
+        <Label fx:id="currency" layoutX="357.0" layoutY="284.0" text="GBP">
             <font>
                 <Font size="15.0" />
             </font>
         </Label>
-        <Button layoutX="394.0" layoutY="288.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="78.0" text="Przewalutuj" />
+        <Button fx:id="submit" layoutX="413.0" layoutY="288.0" mnemonicParsing="false" onAction="#clickedOnExchange" prefHeight="35.0" prefWidth="78.0" text="Przewalutuj" />
     </children>
 </AnchorPane>
