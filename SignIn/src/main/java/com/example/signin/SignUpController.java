@@ -14,6 +14,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Random;
 
 public class SignUpController {
     private Stage stage;
@@ -92,7 +93,24 @@ public class SignUpController {
                     resultSet.next();
                     if(resultSet.getInt(1) == 0) {
 
-                        query = "INSERT INTO customers VALUES (NULL, '%s', '%s', '%s', '%s')".formatted(name, lastname, email, password);
+                        Random generator = new Random();
+                        String accNr = "";
+                        boolean condition = true;
+
+                        while(condition){
+                            accNr = "";
+                            for(int i = 0; i < 10; i++){
+                                accNr += generator.nextInt(9);
+                            }
+
+                            query = "SELECT COUNT(accNumber) FROM customers WHERE accNumber='%s'".formatted(accNr);
+                            resultSet = getDbController().getStatement().executeQuery(query);
+                            resultSet.next();
+
+                            if(resultSet.getInt(1) == 0) condition = false;
+                        }
+
+                        query = "INSERT INTO customers VALUES (NULL, '%s', '%s', '%s', '%s', '%s')".formatted(name, lastname, email, password, accNr);
                         getDbController().getStatement().executeUpdate(query);
 
                         query = "SELECT idCustomer FROM customers WHERE email='%s' AND password='%s'".formatted(email, password);
@@ -106,6 +124,13 @@ public class SignUpController {
 
                         query = "INSERT INTO registers VALUES (NULL, '%d', 'zarejestrowano', '%s')".formatted(id, localDate);
                         getDbController().getStatement().executeUpdate(query);
+
+                        root = FXMLLoader.load(getClass().getResource("signIn.fxml"));
+                        scene = new Scene(root);
+                        stage = (Stage)((Node)evt.getSource()).getScene().getWindow();
+                        stage.setResizable(false);
+                        stage.setScene(scene);
+                        stage.show();
                     }
                     else throw new IllegalArgumentException("emails locked");
 
@@ -118,13 +143,6 @@ public class SignUpController {
                 } finally {
                     getDbController().getStatement().close();
                     getDbController().getConnection().close();
-
-                    root = FXMLLoader.load(getClass().getResource("signIn.fxml"));
-                    scene = new Scene(root);
-                    stage = (Stage)((Node)evt.getSource()).getScene().getWindow();
-                    stage.setResizable(false);
-                    stage.setScene(scene);
-                    stage.show();
                 }
             }
         };

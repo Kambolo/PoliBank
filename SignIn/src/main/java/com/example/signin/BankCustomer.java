@@ -9,8 +9,6 @@ import java.time.LocalDate;
 import static com.example.signin.Main.getDbController;
 
 public class BankCustomer extends User implements BankOperations {
-
-    private int accountNumber;
     private Wallet wallet;
     private int id;
     private DbController dbController;
@@ -113,8 +111,7 @@ public class BankCustomer extends User implements BankOperations {
     @Override
     public boolean payment(BigDecimal value) throws SQLException {
 
-        getWallet().setPln(getWallet().getPln().doubleValue() + value.doubleValue());
-        double newValue = getWallet().getPln().setScale(2).doubleValue();
+        double newValue = getWallet().getPln().setScale(2).doubleValue() + value.setScale(2).doubleValue();
 
         getWallet().setPln(newValue);
 
@@ -144,8 +141,10 @@ public class BankCustomer extends User implements BankOperations {
 
     @Override
     public boolean paycheck(BigDecimal value) throws SQLException {
-        getWallet().setPln(getWallet().getPln().doubleValue() - value.doubleValue());
-        double newValue = getWallet().getPln().setScale(2).doubleValue();
+
+        if (!isEnough(value.doubleValue())) return false;
+
+        double newValue = getWallet().getPln().setScale(2).doubleValue() - value.setScale(2).doubleValue();
 
         getWallet().setPln(newValue);
 
@@ -174,8 +173,40 @@ public class BankCustomer extends User implements BankOperations {
     }
 
     @Override
-    public void transfer(int accountNumber) {
+    public boolean transfer(String accountNumber, BigDecimal value) throws SQLException {
 
+        if (!isEnough(value.doubleValue()) || !ifExist(accountNumber)) return false;
+
+        double newValue1 = getWallet().getPln().setScale(2).doubleValue() - value.setScale(2).doubleValue();
+        double newValue2 = value.setScale(2).doubleValue();
+
+        try{
+            getWallet().setPln(newValue1);
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+            getDbController().setStatement(getDbController().getConnection().createStatement());
+
+            String query;
+
+            query = "UPDATE wallet SET pln=pln+" + newValue2 + " WHERE idCustomer in (SELECT idCustomer FROM customers WHERE accNumber=" + accountNumber + ")";
+            getDbController().getStatement().executeUpdate(query);
+
+            LocalDate localDate = LocalDate.now();
+            query = "INSERT INTO registers VALUES (NULL, '%d','przelew', '%s')".formatted(getId(), localDate);
+            getDbController().getStatement().executeUpdate(query);
+
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        finally {
+            getDbController().getStatement().close();
+            getDbController().getConnection().close();
+        }
+        return false;
     }
 
     @Override
@@ -239,5 +270,58 @@ public class BankCustomer extends User implements BankOperations {
     public DbController getDbController() {return dbController;}
     public void setDbController(DbController dbController) {this.dbController = dbController;}public int getId() {return id;}
     public void setId(int id) {this.id = id;}
+    private boolean isEnough(double value) throws SQLException {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+            getDbController().setStatement(getDbController().getConnection().createStatement());
+
+            String query;
+            ResultSet resultSet;
+            query = "SELECT pln FROM wallet WHERE idCustomer="+ getId();
+            resultSet = getDbController().getStatement().executeQuery(query);
+            resultSet.next();
+
+            if(resultSet.getDouble(1) < value) return false;
+            return  true;
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        finally {
+            getDbController().getStatement().close();
+            getDbController().getConnection().close();
+        }
+        return false;
+    }
+    private boolean ifExist(String accountNumber) throws SQLException {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+            getDbController().setStatement(getDbController().getConnection().createStatement());
+
+            String query;
+            ResultSet resultSet;
+
+            query = "SELECT COUNT(accNumber) FROM customers WHERE accNumber='%s'".formatted(accountNumber);
+            resultSet = getDbController().getStatement().executeQuery(query);
+            resultSet.next();
+            if(resultSet.getInt(1) == 0) return false;
+            return  true;
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        finally {
+            getDbController().getStatement().close();
+            getDbController().getConnection().close();
+        }
+        return false;
+    }
 
 }
+

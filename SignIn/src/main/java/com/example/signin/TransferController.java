@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 public class TransferController {
     @FXML
@@ -36,7 +37,20 @@ public class TransferController {
         showTransferResult.set(false);
     }
     public void makeTransfer(ActionEvent evt) throws IOException{
+        try {
+            double value = Double.parseDouble(transferValue.getText());
+            BigDecimal bigDecimalValue = new BigDecimal(value);
 
+            if(bankCustomer.transfer(accNumber.getText(), bigDecimalValue)){
+                transferResult.setText("Przelew zakonczony sukcesem! :)");
+            }
+            else transferResult.setText("Przelew zakonczony niepowodzeniem! :(");
+            showTransferResult.set(true);
+
+        } catch (Exception e){
+            System.out.println(e);
+            showInvalidValue.set(true);
+        }
     }
     public BankCustomer getBankCustomer() {return bankCustomer;}
     public void setBankCustomer(BankCustomer bankCustomer) {this.bankCustomer = bankCustomer;}

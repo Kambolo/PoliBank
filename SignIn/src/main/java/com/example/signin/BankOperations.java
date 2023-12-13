@@ -8,7 +8,7 @@ public interface BankOperations {
 
     public boolean paycheck(BigDecimal value) throws SQLException;
 
-    public void transfer(int accountNumber);
+    public boolean transfer(String accountNumber, BigDecimal value) throws SQLException;
 
     public void getLoan();
 
