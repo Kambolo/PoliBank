@@ -24,10 +24,11 @@
             <Button mnemonicParsing="false" onAction="#dektopPanel" prefHeight="40.0" prefWidth="100.0" text="Pulpit" />
             <MenuButton mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Płatności">
               <items>
-                <MenuItem mnemonicParsing="false" text="Wpłata" />
+                <MenuItem mnemonicParsing="false" onAction="#paymentPanel" text="Wpłata" />
                 <MenuItem mnemonicParsing="false" text="Wypłata" />
                   <MenuItem mnemonicParsing="false" text="Przelew" />
                   <MenuItem fx:id="exchange" mnemonicParsing="false" onAction="#exchangePanel" text="Wymiana waluty" />
+                  <MenuItem mnemonicParsing="false" text="Pozyczka" />
                   <MenuItem mnemonicParsing="false" text="Lokata" />
               </items>
             </MenuButton>
