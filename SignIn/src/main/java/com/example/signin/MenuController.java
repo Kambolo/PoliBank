@@ -42,4 +42,12 @@ public class MenuController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("payment.fxml"));
         contentContainer.setCenter(loader.load());
     }
+    public void paycheckPanel(ActionEvent evt) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("paycheck.fxml"));
+        contentContainer.setCenter(loader.load());
+    }
+    public void transferPanel(ActionEvent evt) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("transfer.fxml"));
+        contentContainer.setCenter(loader.load());
+    }
 }

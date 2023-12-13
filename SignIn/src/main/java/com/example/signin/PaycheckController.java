@@ -10,37 +10,36 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-public class PaymentController {
-
+public class PaycheckController {
     @FXML
-    private TextField paymentValue;
+    private TextField paycheckValue;
     @FXML
     private Label invalidValue;
     @FXML
-    private Label paymentResult;
+    private Label paycheckResult;
     private BooleanProperty showInvalidValue = new SimpleBooleanProperty();
-    private BooleanProperty showPaymentResult = new SimpleBooleanProperty();
+    private BooleanProperty showPaycheckResult = new SimpleBooleanProperty();
     private BankCustomer bankCustomer;
 
     @FXML
     public void initialize(){
         setBankCustomer(Main.getBankCustomer());
         invalidValue.visibleProperty().bind(showInvalidValue);
-        paymentResult.visibleProperty().bind(showPaymentResult);
+        paycheckResult.visibleProperty().bind(showPaycheckResult);
         showInvalidValue.set(false);
-        showPaymentResult.set(false);
+        showPaycheckResult.set(false);
     }
 
-    public void makePayment(ActionEvent evt) throws IOException {
+    public void makePaycheck(ActionEvent evt) throws IOException {
         try {
-            double value = Double.parseDouble(paymentValue.getText());
+            double value = Double.parseDouble(paycheckValue.getText());
             BigDecimal bigDecimalValue = new BigDecimal(value);
 
-            if(bankCustomer.payment(bigDecimalValue)){
-                paymentResult.setText("Wplata zakonczona sukcesem! :)");
+            if(bankCustomer.paycheck(bigDecimalValue)){
+                paycheckResult.setText("Wyplata zakonczona sukcesem! :)");
             }
-            else paymentResult.setText("Wplata zakonczona niepowodzeniem! :(");
-            showPaymentResult.set(true);
+            else paycheckResult.setText("Wyplata zakonczona niepowodzeniem! :(");
+            showPaycheckResult.set(true);
 
         } catch (Exception e){
             System.out.println(e);

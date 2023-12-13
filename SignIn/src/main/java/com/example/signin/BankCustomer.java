@@ -27,13 +27,14 @@ public class BankCustomer extends User implements BankOperations {
         public void setGbp(double gbp) {this.gbp = BigDecimal.valueOf(gbp);}
         public void setUsd(double usd) {this.usd= BigDecimal.valueOf(usd);}
     }
-    public BankCustomer(String email, String name, String lastname, String password){
+    public BankCustomer(String email, String name, String lastname, String password, int id){
         setDbController(Main.getDbController());
         setWallet(new Wallet());
         setEmail(email);
         setName(name);
         setLastname(lastname);
         setPassword(password);
+        setId(id);
     }
 
     @Override

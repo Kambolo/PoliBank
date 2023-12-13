@@ -25,8 +25,8 @@
             <MenuButton mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Płatności">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#paymentPanel" text="Wpłata" />
-                <MenuItem mnemonicParsing="false" text="Wypłata" />
-                  <MenuItem mnemonicParsing="false" text="Przelew" />
+                <MenuItem mnemonicParsing="false" onAction="#paycheckPanel" text="Wypłata" />
+                  <MenuItem mnemonicParsing="false" onAction="#transferPanel" text="Przelew" />
                   <MenuItem fx:id="exchange" mnemonicParsing="false" onAction="#exchangePanel" text="Wymiana waluty" />
                   <MenuItem mnemonicParsing="false" text="Pozyczka" />
                   <MenuItem mnemonicParsing="false" text="Lokata" />

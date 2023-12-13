@@ -8,7 +8,6 @@ import java.io.IOException;
 
 public class Main extends Application {
     private static DbController dbController;
-    private static BankCustomer customer;
     private static BankCustomer bankCustomer;
 
     @Override
