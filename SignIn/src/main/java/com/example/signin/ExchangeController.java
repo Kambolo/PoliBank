@@ -11,12 +11,16 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
+import static com.example.signin.Main.getBankCustomer;
 import static com.example.signin.Main.getDbController;
 
 public class ExchangeController implements Initializable {
@@ -41,6 +45,15 @@ public class ExchangeController implements Initializable {
     @FXML
     private Label usdRate;
 
+    @FXML
+    private Label plnID;
+    @FXML
+    private Label eurID;
+    @FXML
+    private Label gbpID;
+    @FXML
+    private Label usdID;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         currencies = new Currencies();
@@ -50,6 +63,11 @@ public class ExchangeController implements Initializable {
         eurRate.setText(String.valueOf(currencies.getEurSell()));
         gbpRate.setText(String.valueOf(currencies.getGbpSell()));
         usdRate.setText(String.valueOf(currencies.getUsdSell()));
+
+        plnID.setText(String.valueOf(getBankCustomer().getWallet().getPln()));
+        eurID.setText(String.valueOf(getBankCustomer().getWallet().getEur()));
+        gbpID.setText(String.valueOf(getBankCustomer().getWallet().getGbp()));
+        usdID.setText(String.valueOf(getBankCustomer().getWallet().getUsd()));
 
         exchangeValue.textProperty().addListener((observable, oldValue, newValue)->{
             try{
@@ -88,11 +106,24 @@ public class ExchangeController implements Initializable {
             case "USD" -> currencies.getUsdSell();
             default -> 0.0d;
         };
-        return val * multiplier;
+        BigDecimal result = BigDecimal.valueOf(val/multiplier).setScale(2, RoundingMode.HALF_UP);
+        return result.doubleValue();
     }
 
     public void clickedOnExchange(ActionEvent evt) throws ClassNotFoundException, SQLException {
+        String firstCurr = "pln";
+        String secondCurr = currencyID.getValue().toLowerCase();
 
+        if(exchangeValue.getText().isEmpty()) return;
+
+        double firstV = Double.parseDouble(exchangeValue.getText());
+        double secondV = Double.parseDouble(afterExchangeValue.getText());
+        getBankCustomer().exchange(firstCurr, BigDecimal.valueOf(firstV), secondCurr, BigDecimal.valueOf(secondV));
+
+        plnID.setText(String.valueOf(getBankCustomer().getWallet().getPln()));
+        eurID.setText(String.valueOf(getBankCustomer().getWallet().getEur()));
+        gbpID.setText(String.valueOf(getBankCustomer().getWallet().getGbp()));
+        usdID.setText(String.valueOf(getBankCustomer().getWallet().getUsd()));
     }
 
 }

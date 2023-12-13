@@ -90,9 +90,8 @@ public class SignInController {
                         query = "INSERT INTO registers VALUES (NULL, '%d', 'zalogowano', '%s')".formatted(id, date);
                         getDbController().getStatement().executeUpdate(query);
 
-                        BankCustomer customer = new BankCustomer(email, name, lastname, validPassword);
+                        BankCustomer customer = new BankCustomer(id, email, name, lastname, validPassword);
                         setBankCustomer(customer);
-
                         switchToDesktop(evt);
                     }
                     else{
