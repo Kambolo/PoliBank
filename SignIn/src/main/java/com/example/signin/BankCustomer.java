@@ -116,6 +116,7 @@ public class BankCustomer extends User implements BankOperations {
         getWallet().setPln(getWallet().getPln().doubleValue() + value.doubleValue());
         double newValue = getWallet().getPln().setScale(2).doubleValue();
 
+        getWallet().setPln(newValue);
 
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -123,10 +124,6 @@ public class BankCustomer extends User implements BankOperations {
             getDbController().setStatement(getDbController().getConnection().createStatement());
 
             String query;
-
-            query = "UPDATE wallet SET pln=" + newValue + " WHERE idCustomer=" + getId();
-            getDbController().getStatement().executeUpdate(query);
-
             LocalDate localDate = LocalDate.now();
             query = "INSERT INTO registers VALUES (NULL, '%d','wplata', '%s')".formatted(getId(), localDate);
             getDbController().getStatement().executeUpdate(query);
@@ -146,7 +143,33 @@ public class BankCustomer extends User implements BankOperations {
     }
 
     @Override
-    public boolean paycheck(BigDecimal bigDecimal) {
+    public boolean paycheck(BigDecimal value) throws SQLException {
+        getWallet().setPln(getWallet().getPln().doubleValue() - value.doubleValue());
+        double newValue = getWallet().getPln().setScale(2).doubleValue();
+
+        getWallet().setPln(newValue);
+
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+            getDbController().setStatement(getDbController().getConnection().createStatement());
+
+            String query;
+            LocalDate localDate = LocalDate.now();
+            query = "INSERT INTO registers VALUES (NULL, '%d','wyplata', '%s')".formatted(getId(), localDate);
+            getDbController().getStatement().executeUpdate(query);
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        finally {
+            getDbController().getStatement().close();
+            getDbController().getConnection().close();
+        }
         return false;
     }
 

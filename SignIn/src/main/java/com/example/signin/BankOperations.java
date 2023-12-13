@@ -6,7 +6,7 @@ import java.sql.SQLException;
 public interface BankOperations {
     public boolean payment(BigDecimal value) throws SQLException;
 
-    public boolean paycheck(BigDecimal bigDecimal);
+    public boolean paycheck(BigDecimal value) throws SQLException;
 
     public void transfer(int accountNumber);
 
