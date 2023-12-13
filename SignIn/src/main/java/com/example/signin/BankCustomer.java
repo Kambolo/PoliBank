@@ -13,6 +13,7 @@ public class BankCustomer extends User implements BankOperations {
     private int id;
     private DbController dbController;
 
+
     public class Wallet{
         private BigDecimal pln, eur, gbp, usd;
 
@@ -26,9 +27,13 @@ public class BankCustomer extends User implements BankOperations {
         public void setGbp(double gbp) {this.gbp = BigDecimal.valueOf(gbp);}
         public void setUsd(double usd) {this.usd= BigDecimal.valueOf(usd);}
     }
-    public BankCustomer(){
+    public BankCustomer(String email, String name, String lastname, String password){
         setDbController(Main.getDbController());
         setWallet(new Wallet());
+        setEmail(email);
+        setName(name);
+        setLastname(lastname);
+        setPassword(password);
     }
 
     @Override

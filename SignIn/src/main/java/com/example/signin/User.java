@@ -1,7 +1,7 @@
 package com.example.signin;
 
 public abstract class User {
-    protected String name, lastname, email, plec, password;
+    private String name, lastname, email, plec, password;
 
     public String getName() {return name;}
 

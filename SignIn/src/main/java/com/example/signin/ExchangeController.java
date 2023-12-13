@@ -59,7 +59,6 @@ public class ExchangeController implements Initializable {
 
                     afterExchangeValue.setText(String.valueOf(result));
                 } else {
-                    // Handle empty or null input
                     afterExchangeValue.setText("0");
                 }
             }catch(NumberFormatException e){
@@ -89,7 +88,6 @@ public class ExchangeController implements Initializable {
             case "USD" -> currencies.getUsdSell();
             default -> 0.0d;
         };
-        System.out.println(currencyID.getValue());
         return val * multiplier;
     }
 

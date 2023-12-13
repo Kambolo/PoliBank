@@ -1,5 +1,4 @@
-<<<<<<< HEAD:SignIn/src/main/resources/com/example/signin/bank.sql
-=======
+
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
@@ -9,7 +8,6 @@
 -- Wersja serwera: 10.4.28-MariaDB
 -- Wersja PHP: 8.2.4
 
->>>>>>> b66bd56892cb57ab9f06582208f2c60439bcdd2a:SignIn/src/main/resources/com/example/signin/bankDataBase.sql
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";

@@ -10,10 +10,8 @@ public class Currencies {
     private ArrayList<Double> currenciesList;
     private double eurBuy;
     private double eurSell;
-
     private double gbpBuy;
     private double gbpSell;
-
     private double usdBuy;
     private double usdSell;
     Currencies(){
@@ -28,22 +26,26 @@ public class Currencies {
 
             query = "SELECT eur FROM currencies";
             resultSet = getDbController().getStatement().executeQuery(query);
+            int temp=0;
 
-            while(resultSet.next()){
+            while(resultSet.next() && temp<1){
                 getCurrenciesList().addLast(resultSet.getDouble("eur"));
+                temp++;
             }
+            temp=0;
 
             query = "SELECT gbp FROM currencies";
             resultSet = getDbController().getStatement().executeQuery(query);
 
-            while(resultSet.next()){
+            while(resultSet.next() && temp<1){
                 getCurrenciesList().addLast(resultSet.getDouble("gbp"));
             }
+            temp=0;
 
             query = "SELECT usd FROM currencies";
             resultSet = getDbController().getStatement().executeQuery(query);
 
-            while(resultSet.next()){
+            while(resultSet.next() && temp<1){
                 getCurrenciesList().addLast(resultSet.getDouble("usd"));
             }
 
