@@ -118,7 +118,6 @@ public class SignUpController {
                 } finally {
                     getDbController().getStatement().close();
                     getDbController().getConnection().close();
-                    System.out.println("to tez sie wykona");
                 }
             }
         };

@@ -42,6 +42,11 @@ public class SignInController {
         String email = emailField.getText();
         String password = passwordField.getText();
 
+        if(email.equals("") || password.equals("")){
+            wrongData.setText("Zły email lub hasło!");
+            return;
+        }
+
         SignInOperation signInOperation = new SignInOperation() {
             @Override
             public void signIn(String username, String password) throws ClassNotFoundException, SQLException {
@@ -55,9 +60,11 @@ public class SignInController {
 
                     query = "SELECT password FROM customers WHERE email='%s'".formatted(email);
                     resultSet = getDbController().getStatement().executeQuery(query);
-                    resultSet.next();
 
-                    String validPassword = resultSet.getString("password");
+                    String validPassword = "";
+                    if(resultSet.next()){
+                        validPassword = resultSet.getString("password");
+                    }
 
                     if(validPassword.equals(password)){
                         query = "SELECT idCustomer FROM customers WHERE email='%s'".formatted(email);
@@ -84,9 +91,12 @@ public class SignInController {
                         getDbController().getStatement().executeUpdate(query);
 
                         BankCustomer customer = new BankCustomer(email, name, lastname, validPassword);
-                        setCustomer(customer);
+                        setBankCustomer(customer);
 
                         switchToDesktop(evt);
+                    }
+                    else{
+                        wrongData.setText("Zły email lub hasło!");
                     }
 
                 } catch (Exception e) {

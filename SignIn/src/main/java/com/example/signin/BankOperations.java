@@ -1,11 +1,12 @@
 package com.example.signin;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 
 public interface BankOperations {
-    public void payment(BigDecimal bigDecimal);
+    public boolean payment(BigDecimal value) throws SQLException;
 
-    public void paycheck(BigDecimal bigDecimal);
+    public boolean paycheck(BigDecimal bigDecimal);
 
     public void transfer(int accountNumber);
 

@@ -20,6 +20,7 @@ public class MenuController {
             e.printStackTrace();
         }
         contentContainer.setCenter(pane);
+
     }
 
     /**
@@ -34,6 +35,11 @@ public class MenuController {
 
     public void dektopPanel(ActionEvent evt) throws  IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("desktop.fxml"));
+        contentContainer.setCenter(loader.load());
+    }
+
+    public void paymentPanel(ActionEvent evt) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("payment.fxml"));
         contentContainer.setCenter(loader.load());
     }
 }
