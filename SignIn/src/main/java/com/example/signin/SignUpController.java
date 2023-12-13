@@ -118,6 +118,13 @@ public class SignUpController {
                 } finally {
                     getDbController().getStatement().close();
                     getDbController().getConnection().close();
+
+                    root = FXMLLoader.load(getClass().getResource("signIn.fxml"));
+                    scene = new Scene(root);
+                    stage = (Stage)((Node)evt.getSource()).getScene().getWindow();
+                    stage.setResizable(false);
+                    stage.setScene(scene);
+                    stage.show();
                 }
             }
         };
