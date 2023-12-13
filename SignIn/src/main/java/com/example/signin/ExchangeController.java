@@ -49,7 +49,6 @@ public class ExchangeController implements Initializable {
 
                     afterExchangeValue.setText(String.valueOf(result));
                 } else {
-                    // Handle empty or null input
                     afterExchangeValue.setText("0");
                 }
             }catch(NumberFormatException e){
@@ -60,6 +59,8 @@ public class ExchangeController implements Initializable {
         currencyID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
             try{
                 currency.setText(newValue);
+                double result = getResult(Double.parseDouble(exchangeValue.getText()));
+                afterExchangeValue.setText(String.valueOf(result));
             }catch(Exception e){
                 System.out.println("Error!");
             }

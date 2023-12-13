@@ -7,6 +7,7 @@ public class BankCustomer extends User implements BankOperations {
     private int accountNumber;
     private Wallet wallet;
 
+
     public class Wallet{
         private BigDecimal pln, eur, gbp, usd;
 
