@@ -1,78 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signin.DesktopController">
-   <top>
-      <AnchorPane prefHeight="65.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button layoutX="516.0" layoutY="88.0" mnemonicParsing="false" text="Wyloguj" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="525.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0" />
-            <Label layoutX="286.0" layoutY="92.0" text="PoliBank" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="286.0" AnchorPane.rightAnchor="268.0" AnchorPane.topAnchor="20.0" />
-         </children>
-      </AnchorPane>
-   </top>
-   <left>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signin.DesktopController">
+   <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Pulpit" />
-            <MenuButton mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Płatności">
+            <Label text="Imie i Nazwisko" />
+            <Label text="Numer konta" />
+            <MenuButton mnemonicParsing="false" text="Dostepne srodki">
               <items>
-                <MenuItem mnemonicParsing="false" text="Wpłata" />
-                <MenuItem mnemonicParsing="false" text="Wypłata" />
-                  <MenuItem mnemonicParsing="false" text="Przelew" />
-                  <MenuItem fx:id="exchange" mnemonicParsing="false" onAction="#exchangePanel" text="Wymiana waluty" />
-                  <MenuItem mnemonicParsing="false" text="Lokata" />
+                <MenuItem mnemonicParsing="false" text="PLN" />
+                <MenuItem mnemonicParsing="false" text="EUR" />
+                  <MenuItem mnemonicParsing="false" text="GBP" />
+                  <MenuItem mnemonicParsing="false" text="USD" />
               </items>
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
             </MenuButton>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Historia" />
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="O nas" />
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Ustawienia" />
-            <StackPane prefHeight="120.0" prefWidth="200.0">
-               <children>
-                  <Label text="Data i godzina" />
-               </children>
-            </StackPane>
+            <Label text="wartosc w zaleznosci od waluty" />
+            <Label text="Lokaty">
+               <VBox.margin>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </Label>
          </children>
+         <padding>
+            <Insets bottom="15.0" left="20.0" right="15.0" top="20.0" />
+         </padding>
       </VBox>
-   </left>
-   <center>
-      <BorderPane fx:id="contentContainer" BorderPane.alignment="CENTER">
-         <center>
-            <VBox alignment="BASELINE_LEFT" prefHeight="200.0" prefWidth="100.0">
-               <children>
-                  <Label text="Imie i Nazwisko" />
-                  <Label text="numer konta" />
-                  <MenuButton mnemonicParsing="false" text="Dostepne srodki">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="PLN" />
-                      <MenuItem mnemonicParsing="false" text="EUR" />
-                        <MenuItem mnemonicParsing="false" text="GBP" />
-                        <MenuItem mnemonicParsing="false" text="USD" />
-                    </items>
-                     <VBox.margin>
-                        <Insets top="15.0" />
-                     </VBox.margin>
-                  </MenuButton>
-                  <Label text="wartosc w zaleznosci od waluty" />
-                  <Label text="Lokaty">
-                     <VBox.margin>
-                        <Insets top="15.0" />
-                     </VBox.margin>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets bottom="15.0" left="20.0" right="15.0" top="20.0" />
-               </padding>
-            </VBox>
-         </center>
-      </BorderPane>
    </center>
 </BorderPane>

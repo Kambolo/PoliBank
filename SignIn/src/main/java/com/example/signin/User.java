@@ -1,19 +1,7 @@
 package com.example.signin;
 
-import java.math.BigDecimal;
-
 public abstract class User {
-    protected String name, lastname, email, plec, password;
-
-    abstract public void payment(BigDecimal bigDecimal);
-
-    abstract public void paycheck(BigDecimal bigDecimal);
-
-    abstract public void transfer(int accountNumber);
-
-    abstract public void getLoan();
-
-    abstract public void makeDeposit();
+    private String name, lastname, email, plec, password;
 
     public String getName() {return name;}
 
