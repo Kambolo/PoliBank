@@ -32,7 +32,7 @@
                   <MenuItem mnemonicParsing="false" text="Lokata" />
               </items>
             </MenuButton>
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Historia" />
+            <Button mnemonicParsing="false" onAction="#historyPanel" prefHeight="40.0" prefWidth="100.0" text="Historia" />
             <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="O nas" />
             <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Ustawienia" />
             <StackPane prefHeight="120.0" prefWidth="200.0">

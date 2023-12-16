@@ -4,6 +4,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -18,11 +19,8 @@ public class TransferController {
     @FXML
     private Label invalidValue;
     @FXML
-    private Label invalidAcc;
-    @FXML
     private Label transferResult;
     private BooleanProperty showInvalidValue = new SimpleBooleanProperty();
-    private BooleanProperty showInvalidAcc = new SimpleBooleanProperty();
     private BooleanProperty showTransferResult = new SimpleBooleanProperty();
     private BankCustomer bankCustomer;
 
@@ -30,10 +28,8 @@ public class TransferController {
     public void initialize(){
         setBankCustomer(Main.getBankCustomer());
         invalidValue.visibleProperty().bind(showInvalidValue);
-        invalidAcc.visibleProperty().bind(showInvalidAcc);
         transferResult.visibleProperty().bind(showTransferResult);
         showInvalidValue.set(false);
-        showInvalidAcc.set(false);
         showTransferResult.set(false);
     }
     public void makeTransfer(ActionEvent evt) throws IOException{
@@ -41,10 +37,12 @@ public class TransferController {
             double value = Double.parseDouble(transferValue.getText());
             BigDecimal bigDecimalValue = new BigDecimal(value);
 
-            if(bankCustomer.transfer(accNumber.getText(), bigDecimalValue)){
+            if(getBankCustomer().transfer(accNumber.getText(), bigDecimalValue)){
                 transferResult.setText("Przelew zakonczony sukcesem! :)");
             }
-            else transferResult.setText("Przelew zakonczony niepowodzeniem! :(");
+            else {
+                transferResult.setText("Przelew zakonczony niepowodzeniem! :(");
+            }
             showTransferResult.set(true);
 
         } catch (Exception e){
@@ -54,4 +52,5 @@ public class TransferController {
     }
     public BankCustomer getBankCustomer() {return bankCustomer;}
     public void setBankCustomer(BankCustomer bankCustomer) {this.bankCustomer = bankCustomer;}
+
 }

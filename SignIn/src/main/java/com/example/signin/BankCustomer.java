@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 import static com.example.signin.Main.getDbController;
+import static java.math.BigDecimal.ROUND_DOWN;
 
 public class BankCustomer extends User implements BankOperations {
     private Wallet wallet;
@@ -111,7 +112,7 @@ public class BankCustomer extends User implements BankOperations {
     @Override
     public boolean payment(BigDecimal value) throws SQLException {
 
-        double newValue = getWallet().getPln().setScale(2).doubleValue() + value.setScale(2).doubleValue();
+        double newValue = getWallet().getPln().setScale(2).add(value.setScale(2)).doubleValue();
 
         getWallet().setPln(newValue);
 
@@ -122,7 +123,7 @@ public class BankCustomer extends User implements BankOperations {
 
             String query;
             LocalDate localDate = LocalDate.now();
-            query = "INSERT INTO registers VALUES (NULL, '%d','wplata', '%s')".formatted(getId(), localDate);
+            query = "INSERT INTO registers VALUES (NULL, '%d','wplata_%s', '%s')".formatted(getId(), value.setScale(2, ROUND_DOWN).doubleValue(), localDate);
             getDbController().getStatement().executeUpdate(query);
 
             return true;
@@ -144,7 +145,7 @@ public class BankCustomer extends User implements BankOperations {
 
         if (!isEnough(value.doubleValue())) return false;
 
-        double newValue = getWallet().getPln().setScale(2).doubleValue() - value.setScale(2).doubleValue();
+        double newValue = getWallet().getPln().setScale(2).subtract(value.setScale(2)).doubleValue();
 
         getWallet().setPln(newValue);
 
@@ -155,7 +156,7 @@ public class BankCustomer extends User implements BankOperations {
 
             String query;
             LocalDate localDate = LocalDate.now();
-            query = "INSERT INTO registers VALUES (NULL, '%d','wyplata', '%s')".formatted(getId(), localDate);
+            query = "INSERT INTO registers VALUES (NULL, '%d','wyplata_%s', '%s')".formatted(getId(), value.setScale(2, ROUND_DOWN).doubleValue(), localDate);
             getDbController().getStatement().executeUpdate(query);
 
             return true;
@@ -177,7 +178,7 @@ public class BankCustomer extends User implements BankOperations {
 
         if (!isEnough(value.doubleValue()) || !ifExist(accountNumber)) return false;
 
-        double newValue1 = getWallet().getPln().setScale(2).doubleValue() - value.setScale(2).doubleValue();
+        double newValue1 = getWallet().getPln().setScale(2).subtract(value.setScale(2)).doubleValue();
         double newValue2 = value.setScale(2).doubleValue();
 
         try{
@@ -189,11 +190,11 @@ public class BankCustomer extends User implements BankOperations {
 
             String query;
 
-            query = "UPDATE wallet SET pln=pln+" + newValue2 + " WHERE idCustomer in (SELECT idCustomer FROM customers WHERE accNumber=" + accountNumber + ")";
+            query = "UPDATE wallet SET pln=pln+" + newValue2 + " WHERE idCustomer in (SELECT idCustomer FROM customers WHERE accNumber='%s')".formatted(accountNumber);
             getDbController().getStatement().executeUpdate(query);
 
             LocalDate localDate = LocalDate.now();
-            query = "INSERT INTO registers VALUES (NULL, '%d','przelew', '%s')".formatted(getId(), localDate);
+            query = "INSERT INTO registers VALUES (NULL, '%d','przelew_%s', '%s')".formatted(getId(), value.setScale(2, ROUND_DOWN).doubleValue(), localDate);
             getDbController().getStatement().executeUpdate(query);
 
             return true;
@@ -263,6 +264,27 @@ public class BankCustomer extends User implements BankOperations {
                 temp = BigDecimal.valueOf(getWallet().getGbp().doubleValue() + secondValue.doubleValue());
                 getWallet().setGbp(temp.doubleValue());
                 break;
+        }
+
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+            getDbController().setStatement(getDbController().getConnection().createStatement());
+
+            String query;
+            LocalDate localDate = LocalDate.now();
+            query = "INSERT INTO registers VALUES (NULL, '%d','wymiana_%s', '%s')".formatted(getId(), firstValue.setScale(2, ROUND_DOWN).doubleValue(), localDate);
+            getDbController().getStatement().executeUpdate(query);
+
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        finally {
+            getDbController().getStatement().close();
+            getDbController().getConnection().close();
         }
     }
     public Wallet getWallet(){return this.wallet;}

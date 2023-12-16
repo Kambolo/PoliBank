@@ -19,8 +19,7 @@ public class MenuController {
         } catch(IOException e){
             e.printStackTrace();
         }
-        contentContainer.setCenter(pane);
-
+        getContentContainer().setCenter(pane);
     }
 
     /**
@@ -30,24 +29,34 @@ public class MenuController {
      */
     public void exchangePanel(ActionEvent evt) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("exchange.fxml"));
-        contentContainer.setCenter(loader.load());
+        getContentContainer().setCenter(loader.load());
     }
 
     public void dektopPanel(ActionEvent evt) throws  IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("desktop.fxml"));
-        contentContainer.setCenter(loader.load());
+        getContentContainer().setCenter(loader.load());
     }
 
     public void paymentPanel(ActionEvent evt) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("payment.fxml"));
-        contentContainer.setCenter(loader.load());
+        getContentContainer().setCenter(loader.load());
     }
     public void paycheckPanel(ActionEvent evt) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("paycheck.fxml"));
-        contentContainer.setCenter(loader.load());
+        getContentContainer().setCenter(loader.load());
     }
     public void transferPanel(ActionEvent evt) throws IOException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("transfer.fxml"));
-        contentContainer.setCenter(loader.load());
+        getContentContainer().setCenter(loader.load());
     }
+
+    public void historyPanel(ActionEvent evt) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("history.fxml"));
+        getContentContainer().setCenter(loader.load());
+    }
+
+    public BorderPane getContentContainer() {
+        return contentContainer;
+    }
+
 }
