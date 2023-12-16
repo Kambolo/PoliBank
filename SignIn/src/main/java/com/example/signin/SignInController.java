@@ -85,12 +85,18 @@ public class SignInController {
                         resultSet.next();
                         String lastname = resultSet.getString("lastname");
 
+                        query = "SELECT accNumber FROM customers WHERE email='%s'".formatted(email);
+                        resultSet = getDbController().getStatement().executeQuery(query);
+
+                        resultSet.next();
+                        String accNr = resultSet.getString("accNumber");
+
                         LocalDate date = LocalDate.now();
 
                         query = "INSERT INTO registers VALUES (NULL, '%d', 'zalogowano', '%s')".formatted(id, date);
                         getDbController().getStatement().executeUpdate(query);
 
-                        BankCustomer customer = new BankCustomer(id, email, name, lastname, validPassword);
+                        BankCustomer customer = new BankCustomer(id, email, name, lastname, validPassword, accNr);
                         setBankCustomer(customer);
                         switchToDesktop(evt);
                     }

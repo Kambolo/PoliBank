@@ -40,7 +40,7 @@ public class HistoryController {
         dateColumn.setCellValueFactory(cellData->cellData.getValue().getDate());
         operationColumn.setCellValueFactory(cellData->cellData.getValue().getOperation());
     }
-    public void init() throws SQLException {
+    private void init() throws SQLException {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));

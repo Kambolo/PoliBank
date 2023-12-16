@@ -13,6 +13,7 @@ public class BankCustomer extends User implements BankOperations {
     private Wallet wallet;
     private int id;
     private DbController dbController;
+    private String accNumber;
 
 
     public class Wallet{
@@ -99,7 +100,7 @@ public class BankCustomer extends User implements BankOperations {
         public void setUsd(double usd) throws SQLException {setCurrency("usd", usd);}
         public BigDecimal getUsd() {return this.usd;}
     }
-    public BankCustomer(int id, String email, String name, String lastname, String password) throws SQLException {
+    public BankCustomer(int id, String email, String name, String lastname, String password, String accNumber) throws SQLException {
         setId(id);
         setDbController(Main.getDbController());
         setWallet(new Wallet());
@@ -107,6 +108,7 @@ public class BankCustomer extends User implements BankOperations {
         setName(name);
         setLastname(lastname);
         setPassword(password);
+        setAccNumber(accNumber);
     }
 
     @Override
@@ -292,6 +294,8 @@ public class BankCustomer extends User implements BankOperations {
     public DbController getDbController() {return dbController;}
     public void setDbController(DbController dbController) {this.dbController = dbController;}public int getId() {return id;}
     public void setId(int id) {this.id = id;}
+    public String getAccNumber() {return accNumber;}
+    public void setAccNumber(String accNumber) {this.accNumber = accNumber;}
     private boolean isEnough(double value) throws SQLException {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
