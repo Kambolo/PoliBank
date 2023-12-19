@@ -196,7 +196,15 @@ public class BankCustomer extends User implements BankOperations {
             getDbController().getStatement().executeUpdate(query);
 
             LocalDate localDate = LocalDate.now();
-            query = "INSERT INTO registers VALUES (NULL, '%d','przelew_%s', '%s')".formatted(getId(), value.setScale(2, ROUND_DOWN).doubleValue(), localDate);
+            query = "INSERT INTO registers VALUES (NULL, '%d','przelew_wyslano_%s', '%s')".formatted(getId(), value.setScale(2, ROUND_DOWN).doubleValue(), localDate);
+            getDbController().getStatement().executeUpdate(query);
+
+            query = "SELECT idCustomer FROM customers WHERE accNumber='%s'".formatted(accountNumber);
+            ResultSet resultSet = getDbController().getStatement().executeQuery(query);
+            resultSet.next();
+            int idRecipent = resultSet.getInt(1);
+
+            query = "INSERT INTO registers VALUES (NULL, '%d','przelew_odebrano_%s', '%s')".formatted(idRecipent, value.setScale(2, ROUND_DOWN).doubleValue(), localDate);
             getDbController().getStatement().executeUpdate(query);
 
             return true;

@@ -49,7 +49,9 @@ public class HistoryController {
             String query;
             ResultSet resultSet;
 
-            query = "SELECT operation, date FROM registers WHERE idCustomer=" + getBankCustomer().getId() + " AND operation LIKE 'wplata%' OR operation LIKE 'wyplata%' OR operation LIKE 'przelew%' OR operation LIKE 'wymiana%'";
+            query = "SELECT operation, date FROM registers WHERE idCustomer=" + getBankCustomer().getId() +
+                    " AND( operation LIKE 'wplata%' OR operation LIKE 'wyplata%' OR operation LIKE 'przelew%' " +
+                    "OR operation LIKE 'wymiana%')";
 
             resultSet = getDbController().getStatement().executeQuery(query);
 
