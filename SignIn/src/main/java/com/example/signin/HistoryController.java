@@ -40,6 +40,11 @@ public class HistoryController {
         dateColumn.setCellValueFactory(cellData->cellData.getValue().getDate());
         operationColumn.setCellValueFactory(cellData->cellData.getValue().getOperation());
     }
+
+    /**
+     * Metoda pomocnicza pobierajaca z bazy liste operacji zalogowanego uzytkonika
+     * @throws SQLException
+     */
     private void init() throws SQLException {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");

@@ -32,6 +32,12 @@ public class TransferController {
         showInvalidValue.set(false);
         showTransferResult.set(false);
     }
+
+    /**
+     * Metoda wstrzyknieta do przycisku umozliwiajaca wykonanie przelewu
+     * @param evt zdażenie(wciśnięcie przycisku)
+     * @throws IOException
+     */
     public void makeTransfer(ActionEvent evt) throws IOException{
         try {
             double value = Double.parseDouble(transferValue.getText());

@@ -31,6 +31,11 @@ public class PaymentController {
         showPaymentResult.set(false);
     }
 
+    /**
+     * Metoda wstrzyknieta do przycisku umozliwiajaca wykonanie wplaty
+     * @param evt zdażenie(wciśnięcie przycisku)
+     * @throws IOException
+     */
     public void makePayment(ActionEvent evt) throws IOException {
         try {
             double value = Double.parseDouble(paymentValue.getText());

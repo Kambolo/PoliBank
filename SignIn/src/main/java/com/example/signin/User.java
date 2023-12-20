@@ -1,5 +1,8 @@
 package com.example.signin;
 
+/**
+ * Klasa abstrakcyjna stanowiaca szkielet BankCustomer do dziedziczenia
+ */
 public abstract class User {
     private String name, lastname, email, plec, password;
 

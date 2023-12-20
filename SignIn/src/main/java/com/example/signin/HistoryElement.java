@@ -3,6 +3,9 @@ package com.example.signin;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Obiekt klasy HistoryElement stanowi pojedyncza operacje wykonana przez uzytkownika
+ */
 public class HistoryElement {
     private StringProperty operation = new SimpleStringProperty();
     private StringProperty date = new SimpleStringProperty();

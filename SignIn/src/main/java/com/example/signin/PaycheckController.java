@@ -30,6 +30,11 @@ public class PaycheckController {
         showPaycheckResult.set(false);
     }
 
+    /**
+     * Metoda wstrzyknieta do przycisku umozliwiajaca wykonanie wyplaty
+     * @param evt zdażenie(wciśnięcie przycisku)
+     * @throws IOException
+     */
     public void makePaycheck(ActionEvent evt) throws IOException {
         try {
             double value = Double.parseDouble(paycheckValue.getText());

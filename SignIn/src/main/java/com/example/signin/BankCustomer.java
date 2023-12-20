@@ -1,5 +1,7 @@
 package com.example.signin;
 
+import java.io.File;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,14 +11,14 @@ import java.time.LocalDate;
 import static com.example.signin.Main.getDbController;
 import static java.math.BigDecimal.ROUND_DOWN;
 
-public class BankCustomer extends User implements BankOperations {
+public class BankCustomer extends User implements BankOperations, Serializable {
     private Wallet wallet;
     private int id;
-    private DbController dbController;
+    private transient DbController dbController;
     private String accNumber;
+    private boolean ifLogOut;
 
-
-    public class Wallet{
+    public class Wallet implements Serializable{
         private BigDecimal pln, eur, gbp, usd;
 
         public Wallet() throws SQLException {
@@ -100,6 +102,17 @@ public class BankCustomer extends User implements BankOperations {
         public void setUsd(double usd) throws SQLException {setCurrency("usd", usd);}
         public BigDecimal getUsd() {return this.usd;}
     }
+
+    /**
+     * Konstruktor klasy BankCustomer
+     * @param id id uzytkownika
+     * @param email email uzytkownika
+     * @param name imie uzytkownika
+     * @param lastname nazwisko uzytkownika
+     * @param password haslo uzytkownika
+     * @param accNumber numer konta uzytkownika
+     * @throws SQLException
+     */
     public BankCustomer(int id, String email, String name, String lastname, String password, String accNumber) throws SQLException {
         setId(id);
         setDbController(Main.getDbController());
@@ -109,8 +122,15 @@ public class BankCustomer extends User implements BankOperations {
         setLastname(lastname);
         setPassword(password);
         setAccNumber(accNumber);
+        setIfLogOut(false);
     }
 
+    /**
+     * Metoda implementujaca wplate, uaktualnia Wallet oraz tworzy wpis w bazie rejestrow
+     * @param value kwota do wplaty na konto
+     * @return TRUE jezeli operacja zostala zakonczona sukcesem
+     * @throws SQLException
+     */
     @Override
     public boolean payment(BigDecimal value) throws SQLException {
 
@@ -142,6 +162,12 @@ public class BankCustomer extends User implements BankOperations {
         return false;
     }
 
+    /**
+     * Metoda implementujaca wyplate, uaktualnia Wallet oraz tworzy wpis w bazie rejestrow
+     * @param value kwota do wyplaty na konto
+     * @return TRUE jezeli operacja zostala zakonczona sukcesem
+     * @throws SQLException
+     */
     @Override
     public boolean paycheck(BigDecimal value) throws SQLException {
 
@@ -175,6 +201,12 @@ public class BankCustomer extends User implements BankOperations {
         return false;
     }
 
+    /**
+     * Metoda implementujaca przelew, uaktualnia Wallet uzytkownika oraz odbiorcy, a takze tworzy wpis w bazie rejestrow
+     * @param value kwota przelewu
+     * @return TRUE jezeli operacja zostala zakonczona sukcesem
+     * @throws SQLException
+     */
     @Override
     public boolean transfer(String accountNumber, BigDecimal value) throws SQLException {
 
@@ -304,6 +336,15 @@ public class BankCustomer extends User implements BankOperations {
     public void setId(int id) {this.id = id;}
     public String getAccNumber() {return accNumber;}
     public void setAccNumber(String accNumber) {this.accNumber = accNumber;}
+    public boolean isIfLogOut() {return ifLogOut;}
+    public void setIfLogOut(boolean ifLogOut) {this.ifLogOut = ifLogOut;}
+
+    /**
+     * Metoda pomocnicza sprawdza czy uzytkownika posiada dostateczne zasoby aby zrealizowac operacje
+     * @param value sprawdzana wartosc
+     * @return TRUE jezeli uzytkownika dysponuje żądaną kwotą
+     * @throws SQLException
+     */
     private boolean isEnough(double value) throws SQLException {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -330,6 +371,13 @@ public class BankCustomer extends User implements BankOperations {
         }
         return false;
     }
+
+    /**
+     * Metoda pomocnicza sprawdza czy istnieje uzytkownik o podanym numerze konta
+     * @param accountNumber sprawdzany numer konta
+     * @return TRUE jezeli istnieje
+     * @throws SQLException
+     */
     private boolean ifExist(String accountNumber) throws SQLException {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -355,6 +403,38 @@ public class BankCustomer extends User implements BankOperations {
             getDbController().getConnection().close();
         }
         return false;
+    }
+
+    /**
+     * Metoda wylogowywujaca uzytkonika z serwisu, tworzy wpis wbazie rejestrow.
+     * Usuwa plik .bin bedacy podstawa do lokalnej serializacji obeiktu w wypadku nie wylogowania
+     * @throws SQLException
+     */
+    public void logOut() throws SQLException {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+            getDbController().setStatement(getDbController().getConnection().createStatement());
+
+            String query;
+            LocalDate localDate = LocalDate.now();
+            query = "INSERT INTO registers VALUES (NULL, '%d','wylogowano', '%s')".formatted(getId(), localDate);
+            getDbController().getStatement().executeUpdate(query);
+            setIfLogOut(true);
+
+            File file = new File("serializedObjects.bin");
+
+            if(file.isFile()) file.delete();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        finally {
+            getDbController().getStatement().close();
+            getDbController().getConnection().close();
+        }
     }
 
 }
