@@ -261,30 +261,12 @@ public class BankCustomer extends User implements BankOperations, Serializable {
     public void makeDeposit() {
 
     }
-    public void exchange(String firstCurr, BigDecimal firstValue, String secondCurr, BigDecimal secondValue) throws SQLException {
+    public void exchange(BigDecimal firstValue, String secondCurr, BigDecimal secondValue) throws SQLException {
         BigDecimal temp;
 
-        switch(firstCurr){
-            case "pln":
-                temp = BigDecimal.valueOf(getWallet().getPln().doubleValue() - firstValue.doubleValue());
-                getWallet().setPln(temp.doubleValue());
-                break;
+        if(getWallet().getPln().doubleValue() < firstValue.doubleValue()) return;
 
-            case "eur":
-                temp = BigDecimal.valueOf(getWallet().getEur().doubleValue() - firstValue.doubleValue());
-                getWallet().setEur(temp.doubleValue());
-                break;
-
-            case "usd":
-                temp = BigDecimal.valueOf(getWallet().getUsd().doubleValue() - firstValue.doubleValue());
-                getWallet().setUsd(temp.doubleValue());
-                break;
-
-            case "gbp":
-                temp = BigDecimal.valueOf(getWallet().getGbp().doubleValue() - firstValue.doubleValue());
-                getWallet().setGbp(temp.doubleValue());
-                break;
-        }
+        getWallet().setPln(getWallet().getPln().doubleValue() - firstValue.doubleValue());
 
         switch(secondCurr){
             case "pln":

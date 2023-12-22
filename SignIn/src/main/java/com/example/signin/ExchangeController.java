@@ -57,7 +57,7 @@ public class ExchangeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         currencies = new Currencies();
-        currencyID.setValue(choices.get(1));
+        currencyID.setValue(choices.get(0));
         currencyID.setItems(choices);
 
         eurRate.setText(String.valueOf(currencies.getEurSell()));
@@ -106,7 +106,7 @@ public class ExchangeController implements Initializable {
             case "USD" -> currencies.getUsdSell();
             default -> 0.0d;
         };
-        BigDecimal result = BigDecimal.valueOf(val/multiplier).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal result = BigDecimal.valueOf(val/multiplier).setScale(2, RoundingMode.HALF_DOWN);
         return result.doubleValue();
     }
 
@@ -118,7 +118,7 @@ public class ExchangeController implements Initializable {
 
         double firstV = Double.parseDouble(exchangeValue.getText());
         double secondV = Double.parseDouble(afterExchangeValue.getText());
-        getBankCustomer().exchange(firstCurr, BigDecimal.valueOf(firstV), secondCurr, BigDecimal.valueOf(secondV));
+        getBankCustomer().exchange(BigDecimal.valueOf(firstV), secondCurr, BigDecimal.valueOf(secondV));
 
         plnID.setText(String.valueOf(getBankCustomer().getWallet().getPln()));
         eurID.setText(String.valueOf(getBankCustomer().getWallet().getEur()));

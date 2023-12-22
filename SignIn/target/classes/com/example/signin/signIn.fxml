@@ -29,7 +29,7 @@
       </Label>
       <Button layoutX="294.0" layoutY="103.0" mnemonicParsing="false" onAction="#logIn" prefHeight="39.0" prefWidth="75.0" text="Zaloguj" />
       <Button layoutX="294.0" layoutY="149.0" mnemonicParsing="false" onAction="#switchToSignUp" prefHeight="39.0" prefWidth="75.0" text="Zarejestruj " />
-      <Hyperlink layoutX="276.0" layoutY="193.0" text="Zapomniałeś hasła?" />
+      <Hyperlink layoutX="276.0" layoutY="193.0" onAction="#switchToFrogottenPass" text="Zapomniałeś hasła?" />
       <Label fx:id="wrongData" layoutX="31.0" layoutY="196.0" textFill="#b52b2b" />
    </children>
 </AnchorPane>

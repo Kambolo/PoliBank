@@ -28,7 +28,7 @@ public class Currencies {
             resultSet = getDbController().getStatement().executeQuery(query);
             int temp=0;
 
-            while(resultSet.next() && temp<1){
+            while(resultSet.next() && temp<2){
                 getCurrenciesList().addLast(resultSet.getDouble("eur"));
                 temp++;
             }
@@ -37,16 +37,18 @@ public class Currencies {
             query = "SELECT gbp FROM currencies";
             resultSet = getDbController().getStatement().executeQuery(query);
 
-            while(resultSet.next() && temp<1){
+            while(resultSet.next() && temp<2){
                 getCurrenciesList().addLast(resultSet.getDouble("gbp"));
+                temp++;
             }
             temp=0;
 
             query = "SELECT usd FROM currencies";
             resultSet = getDbController().getStatement().executeQuery(query);
 
-            while(resultSet.next() && temp<1){
+            while(resultSet.next() && temp<2){
                 getCurrenciesList().addLast(resultSet.getDouble("usd"));
+                temp++;
             }
 
             eurSell = currenciesList.get(0);

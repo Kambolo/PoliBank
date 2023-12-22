@@ -125,4 +125,13 @@ public class SignInController {
         stage.setResizable(false);
         stage.show();
     }
+
+    public void switchToFrogottenPass(ActionEvent evt) throws IOException {
+        root = FXMLLoader.load(this.getClass().getResource("forgottenPassword.fxml"));
+        scene = new Scene(root);
+        stage = (Stage)((Node)evt.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
 }
