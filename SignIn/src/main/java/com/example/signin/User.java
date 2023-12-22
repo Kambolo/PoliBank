@@ -1,9 +1,11 @@
 package com.example.signin;
 
+import java.io.Serializable;
+
 /**
  * Klasa abstrakcyjna stanowiaca szkielet BankCustomer do dziedziczenia
  */
-public abstract class User {
+public abstract class User implements Serializable {
     private String name, lastname, email, plec, password;
 
     public String getName() {return name;}
