@@ -14,4 +14,6 @@ public interface BankOperations {
     public void getLoan();
 
     public boolean makeDeposit(BigDecimal value, LocalDate startdate, LocalDate endDate, double percent) throws SQLException;
+
+    public void exchange(BigDecimal firstValue, String secondCurr, BigDecimal secondValue) throws SQLException;
 }

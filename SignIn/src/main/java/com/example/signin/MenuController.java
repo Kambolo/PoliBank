@@ -15,12 +15,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Date;
 
 public class MenuController {
     private Stage stage;
@@ -48,13 +46,12 @@ public class MenuController {
         }
         getContentContainer().setCenter(pane);
 
-        dateLabel.textProperty().bind(dateProperty);
+        dateLabel.textProperty().bind(getDateProperty());
         timeLabel.textProperty().bind(timeProperty);
 
         clock = new Timer();
         clock.start();
     }
-
 
     /**
      * Klasa zagniezdzona umozliwiajaca implementacje zegara w menu.fxml
@@ -159,5 +156,6 @@ public class MenuController {
     public BorderPane getContentContainer() {return contentContainer;}
     public BankCustomer getBankCustomer() {return bankCustomer;}
     public void setBankCustomer(BankCustomer bankCustomer) {this.bankCustomer = bankCustomer;}
+    public StringProperty getDateProperty() {return dateProperty;}
 
 }

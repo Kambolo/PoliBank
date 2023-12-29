@@ -15,6 +15,8 @@ import javafx.scene.control.TableView;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +81,12 @@ public class DesktopController {
         endDateColumn.setCellValueFactory(cellData->cellData.getValue().getEndDate());
         percentColumn.setCellValueFactory(cellData->cellData.getValue().getPercent());
         sumColumn.setCellValueFactory(cellData->cellData.getValue().getSum());
+
+        try {
+            checkDepositsExpire();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -94,19 +102,21 @@ public class DesktopController {
             String query;
             ResultSet resultSet;
 
-            query = "SELECT sum, startDate, endDate, percent FROM deposis WHERE idCustomer=" + getBankCustomer().getId();
+            query = "SELECT idDeposis, sum, startDate, endDate, percent FROM deposis WHERE idCustomer=" + getBankCustomer().getId();
 
             resultSet = getDbController().getStatement().executeQuery(query);
 
             List<DepositElement> list = new ArrayList<>();
+            int id;
             String sum, startDate, endDate, percent;
 
             while(resultSet.next()){
+                id = resultSet.getInt("idDeposis");
                 sum = resultSet.getString("sum");
                 startDate = resultSet.getString("startDate");
                 endDate = resultSet.getString("endDate");
                 percent = resultSet.getString("percent");
-                list.add(new DepositElement(sum, startDate, endDate, percent));
+                list.add(new DepositElement(id, sum, startDate, endDate, percent));
             }
 
             elements = FXCollections.observableArrayList(list);
@@ -121,6 +131,19 @@ public class DesktopController {
             getDbController().getConnection().close();
         }
     }
+
+    /**
+     * Metoda sprawdzajaca, ktore z lokat uzytkownika sie zakonczyly
+     */
+    private void checkDepositsExpire() throws SQLException {
+        String data;
+
+        for(DepositElement e : elements){
+            data = e.getEndDate().get();
+            if(LocalDate.now().isAfter(LocalDate.parse(data))) getBankCustomer().capitalization(e.getId(), e.getSum(), e.getPercent());
+        }
+    }
+
     public BankCustomer getBankCustomer() {return bankCustomer;}
     public void setBankCustomer(BankCustomer bankCustomer) {this.bankCustomer = bankCustomer;}
     public DbController getDbController() {return dbController;}

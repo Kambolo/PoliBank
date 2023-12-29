@@ -1,5 +1,8 @@
 package com.example.signin;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
+
 import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -8,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-import static com.example.signin.Main.getDbController;
 import static java.math.BigDecimal.ROUND_DOWN;
 
 public class BankCustomer extends User implements BankOperations, Serializable {
@@ -271,8 +273,6 @@ public class BankCustomer extends User implements BankOperations, Serializable {
 
             String query;
 
-
-
             query = "INSERT INTO deposis VALUES (NULL, " + getId() + ", " + value + ", '%s', '%s', ".formatted(startDate, endDate) + percent + ")";
             getDbController().getStatement().executeUpdate(query);
 
@@ -291,6 +291,7 @@ public class BankCustomer extends User implements BankOperations, Serializable {
         }
         return false;
     }
+    @Override
     public void exchange(BigDecimal firstValue, String secondCurr, BigDecimal secondValue) throws SQLException {
         BigDecimal temp;
 
@@ -350,6 +351,42 @@ public class BankCustomer extends User implements BankOperations, Serializable {
     public void setAccNumber(String accNumber) {this.accNumber = accNumber;}
     public boolean isIfLogOut() {return ifLogOut;}
     public void setIfLogOut(boolean ifLogOut) {this.ifLogOut = ifLogOut;}
+
+    /**
+     * Kapitalizacja odsetek lokaty, doladaowanie portfela oraz usuniecie lokaty z bazy
+     * @param idDeposit id lokaty
+     * @param sum kwota wplacona na lokate
+     * @param percent procent lokaty
+     * @throws SQLException
+     */
+    public void capitalization(IntegerProperty idDeposit, StringProperty sum, StringProperty percent) throws SQLException {
+        try{
+            BigDecimal bigPercent = new BigDecimal(String.valueOf(percent));
+            bigPercent.add(BigDecimal.valueOf(1));
+
+            BigDecimal newValue = getWallet().getPln().add(new BigDecimal(String.valueOf(sum)).multiply(bigPercent));
+            getWallet().setPln(newValue.doubleValue());
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+            getDbController().setStatement(getDbController().getConnection().createStatement());
+
+            String query;
+
+            query = "DELETE FROM deposis WHERE idDeposis='%d'".formatted(idDeposit);
+            getDbController().getStatement().executeUpdate(query);
+
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        finally {
+            getDbController().getStatement().close();
+            getDbController().getConnection().close();
+        }
+    }
 
     /**
      * Metoda pomocnicza sprawdza czy uzytkownika posiada dostateczne zasoby aby zrealizowac operacje

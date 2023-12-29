@@ -63,20 +63,20 @@ public class DepositController {
             double percent;
 
             if(option1.isSelected()){
-                percent = 0.02;
-                endDate.plusMonths(1);
+                percent = 0.005;
+                endDate = endDate.plusMonths(1);
             }
             else if(option2.isSelected()){
-                percent = 0.15;
-                endDate.plusMonths(3);
+                percent = 0.02;
+                endDate = endDate.plusMonths(3);
             }
             else if(option3.isSelected()){
-                percent = 0.01;
-                endDate.plusMonths(6);
+                percent = 0.05;
+                endDate = endDate.plusMonths(6);
             }
             else{
-                percent = 0.005;
-                endDate.plusYears(1);
+                percent = 0.11;
+                endDate = endDate.plusYears(1);
             }
 
             if(!getBankCustomer().makeDeposit(bigDecimal, LocalDate.now(), endDate, percent)) errorLabelProperty.set(true);

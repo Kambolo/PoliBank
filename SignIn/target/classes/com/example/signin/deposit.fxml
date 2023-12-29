@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signin.DepositController">
    <top>
       <AnchorPane prefHeight="60.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -43,7 +42,7 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="125.0">
                      <children>
-                        <Label text="1 miesiac - 2%" />
+                        <Label text="1 miesiac - 0.5%" />
                         <CheckBox fx:id="option1" mnemonicParsing="false" onAction="#selectOption1">
                            <VBox.margin>
                               <Insets top="15.0" />
@@ -53,7 +52,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="125.0">
                      <children>
-                        <Label text="3 miesiace - 1.5%" />
+                        <Label text="3 miesiace - 2%" />
                         <CheckBox fx:id="option2" mnemonicParsing="false" onAction="#selectOption2">
                            <VBox.margin>
                               <Insets top="15.0" />
@@ -63,7 +62,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="125.0">
                      <children>
-                        <Label text="6 miesiecy - 1%" />
+                        <Label text="6 miesiecy - 5%" />
                         <CheckBox fx:id="option3" mnemonicParsing="false" onAction="#selectOption3">
                            <VBox.margin>
                               <Insets top="15.0" />
@@ -73,7 +72,7 @@
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="125.0">
                      <children>
-                        <Label text="1 rok - 0,5%" />
+                        <Label text="1 rok -11%" />
                         <CheckBox fx:id="option4" mnemonicParsing="false" onAction="#selectOption4">
                            <VBox.margin>
                               <Insets top="15.0" />
