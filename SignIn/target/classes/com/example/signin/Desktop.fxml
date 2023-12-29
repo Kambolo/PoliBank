@@ -3,8 +3,11 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signin.DesktopController">
@@ -15,7 +18,7 @@
             <Label fx:id="accNrLabel" text="Numer konta" />
             <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="200.0">
                <children>
-                  <Label text="Label" />
+                  <Label text="Waluta" />
                   <ChoiceBox fx:id="currencyID" prefWidth="70.0">
                      <HBox.margin>
                         <Insets left="10.0" />
@@ -29,6 +32,18 @@
                   <Insets top="15.0" />
                </VBox.margin>
             </Label>
+            <StackPane prefHeight="150.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="depositsTable" prefHeight="200.0" prefWidth="0.0">
+                    <columns>
+                      <TableColumn fx:id="startDateColumn" minWidth="116.0" prefWidth="75.0" text="Data Rozpoczecia" />
+                      <TableColumn fx:id="endDateColumn" minWidth="116.0" prefWidth="75.0" text="Data Zakonczenia" />
+                        <TableColumn fx:id="percentColumn" minWidth="116.0" prefWidth="75.0" text="Procent" />
+                        <TableColumn fx:id="sumColumn" minWidth="102.0" prefWidth="50.0" text="Kwota" />
+                    </columns>
+                  </TableView>
+               </children>
+            </StackPane>
          </children>
          <padding>
             <Insets bottom="15.0" left="20.0" right="15.0" top="20.0" />

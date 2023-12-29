@@ -9,6 +9,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DesktopController {
     @FXML
@@ -21,10 +29,23 @@ public class DesktopController {
     private Label valueLabel;
     private StringProperty valueProperty = new SimpleStringProperty();
     private BankCustomer bankCustomer;
+    private DbController dbController;
     private final ObservableList<String> choices = FXCollections.observableArrayList("PLN", "EUR", "GBP", "USD");
+    @FXML
+    private TableView<DepositElement> depositsTable;
+    @FXML
+    private TableColumn<DepositElement, String> startDateColumn;
+    @FXML
+    private TableColumn<DepositElement, String> endDateColumn;
+    @FXML
+    private TableColumn<DepositElement, String> percentColumn;
+    @FXML
+    private TableColumn<DepositElement, String> sumColumn;
+    private ObservableList<DepositElement> elements;
 
     @FXML
     public  void initialize(){
+        setDbController(Main.getDbController());
         setBankCustomer(Main.getBankCustomer());
         personalDataLabel.setText(getBankCustomer().getName() + " " + getBankCustomer().getLastname());
         accNrLabel.setText(getBankCustomer().getAccNumber());
@@ -46,7 +67,62 @@ public class DesktopController {
                 };
             }
         });
+
+        try {
+            init();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        depositsTable.setItems(elements);
+        startDateColumn.setCellValueFactory(cellData->cellData.getValue().getStartDate());
+        endDateColumn.setCellValueFactory(cellData->cellData.getValue().getEndDate());
+        percentColumn.setCellValueFactory(cellData->cellData.getValue().getPercent());
+        sumColumn.setCellValueFactory(cellData->cellData.getValue().getSum());
+    }
+
+    /**
+     * Metoda pomocnicza pobierajaca z bazy liste lokat uzytkownika
+     * @throws SQLException
+     */
+    private void init() throws SQLException {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+            getDbController().setStatement(getDbController().getConnection().createStatement());
+
+            String query;
+            ResultSet resultSet;
+
+            query = "SELECT sum, startDate, endDate, percent FROM deposis WHERE idCustomer=" + getBankCustomer().getId();
+
+            resultSet = getDbController().getStatement().executeQuery(query);
+
+            List<DepositElement> list = new ArrayList<>();
+            String sum, startDate, endDate, percent;
+
+            while(resultSet.next()){
+                sum = resultSet.getString("sum");
+                startDate = resultSet.getString("startDate");
+                endDate = resultSet.getString("endDate");
+                percent = resultSet.getString("percent");
+                list.add(new DepositElement(sum, startDate, endDate, percent));
+            }
+
+            elements = FXCollections.observableArrayList(list);
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        finally {
+            getDbController().getStatement().close();
+            getDbController().getConnection().close();
+        }
     }
     public BankCustomer getBankCustomer() {return bankCustomer;}
     public void setBankCustomer(BankCustomer bankCustomer) {this.bankCustomer = bankCustomer;}
+    public DbController getDbController() {return dbController;}
+    public void setDbController(DbController dbController) {this.dbController = dbController;}
 }
