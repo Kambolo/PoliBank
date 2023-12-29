@@ -258,8 +258,38 @@ public class BankCustomer extends User implements BankOperations, Serializable {
     }
 
     @Override
-    public void makeDeposit() {
+    public boolean makeDeposit(BigDecimal value, LocalDate startDate, LocalDate endDate, double percent) throws SQLException {
+        if (!isEnough(value.doubleValue())) return false;
 
+        try{
+            double newValue = getWallet().getPln().setScale(2).subtract(value.setScale(2)).doubleValue();
+            getWallet().setPln(newValue);
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+            getDbController().setStatement(getDbController().getConnection().createStatement());
+
+            String query;
+
+
+
+            query = "INSERT INTO deposis VALUES (NULL, " + getId() + ", " + value + ", '%s', '%s', ".formatted(startDate, endDate) + percent + ")";
+            getDbController().getStatement().executeUpdate(query);
+
+            query = "INSERT INTO registers VALUES (NULL, '%d','utworzenie_lokaty_%s', '%s')".formatted(getId(), value.setScale(2, ROUND_DOWN).doubleValue(), startDate);
+            getDbController().getStatement().executeUpdate(query);
+
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        finally {
+            getDbController().getStatement().close();
+            getDbController().getConnection().close();
+        }
+        return false;
     }
     public void exchange(BigDecimal firstValue, String secondCurr, BigDecimal secondValue) throws SQLException {
         BigDecimal temp;

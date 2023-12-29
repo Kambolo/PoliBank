@@ -120,6 +120,16 @@ public class MenuController {
     }
 
     /**
+     * Zamiana zawartośći głownego kontenera z treścią na panel lokat
+     * @param evt zdażenie(wciśnięcie przycisku)
+     * @throws IOException
+     */
+    public void depositPanel(ActionEvent evt) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("deposit.fxml"));
+        getContentContainer().setCenter(loader.load());
+    }
+
+    /**
      * Zamiana zawartośći głownego kontenera z treścią na panel historii operacji uzytkownika
      * @param evt zdażenie(wciśnięcie przycisku)
      * @throws IOException

@@ -30,7 +30,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#transferPanel" text="Przelew" />
                   <MenuItem fx:id="exchange" mnemonicParsing="false" onAction="#exchangePanel" text="Wymiana waluty" />
                   <MenuItem mnemonicParsing="false" text="Pozyczka" />
-                  <MenuItem mnemonicParsing="false" text="Lokata" />
+                  <MenuItem mnemonicParsing="false" onAction="#depositPanel" text="Lokata" />
               </items>
             </MenuButton>
             <Button mnemonicParsing="false" onAction="#historyPanel" prefHeight="40.0" prefWidth="100.0" text="Historia" />

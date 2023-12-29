@@ -2,6 +2,7 @@ package com.example.signin;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public interface BankOperations {
     public boolean payment(BigDecimal value) throws SQLException;
@@ -12,5 +13,5 @@ public interface BankOperations {
 
     public void getLoan();
 
-    public void makeDeposit();
+    public boolean makeDeposit(BigDecimal value, LocalDate startdate, LocalDate endDate, double percent) throws SQLException;
 }

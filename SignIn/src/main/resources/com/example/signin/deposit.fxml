@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="335.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signin.DepositController">
+   <top>
+      <AnchorPane prefHeight="60.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="233.0" layoutY="23.0" text="Lokaty" />
+         </children>
+      </AnchorPane>
+   </top>
+   <bottom>
+      <AnchorPane prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button layoutX="417.0" layoutY="2.0" mnemonicParsing="false" onAction="#makeDeposit" text="Potwierdz" />
+            <Label fx:id="depositComplete" layoutX="167.0" layoutY="12.0" text="Utworzenie lokaty powiodlo sie" />
+         </children>
+      </AnchorPane>
+   </bottom>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane prefHeight="121.0" prefWidth="500.0">
+               <children>
+                  <Label layoutX="14.0" layoutY="28.0" text="Wprowadz kwote jaka chcesz wplacic na lokate (PLN)" />
+                  <TextField fx:id="valueTextField" layoutX="295.0" layoutY="24.0" />
+                  <Label fx:id="errorLabel" layoutX="144.0" layoutY="52.0" text="Nie posiadasz wystarczajacych srodkow!" />
+                  <Label layoutX="208.0" layoutY="90.0" text="Wybierz wariant" />
+                  <Label fx:id="invalidValue" layoutX="128.0" layoutY="69.0" text="Wprowadz poprawne dane ( np. 100.00 lub 100 )" />
+               </children>
+            </AnchorPane>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="125.0">
+                     <children>
+                        <Label text="1 miesiac - 2%" />
+                        <CheckBox fx:id="option1" mnemonicParsing="false" onAction="#selectOption1">
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                        </CheckBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="125.0">
+                     <children>
+                        <Label text="3 miesiace - 1.5%" />
+                        <CheckBox fx:id="option2" mnemonicParsing="false" onAction="#selectOption2">
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                        </CheckBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="125.0">
+                     <children>
+                        <Label text="6 miesiecy - 1%" />
+                        <CheckBox fx:id="option3" mnemonicParsing="false" onAction="#selectOption3">
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                        </CheckBox>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="125.0">
+                     <children>
+                        <Label text="1 rok - 0,5%" />
+                        <CheckBox fx:id="option4" mnemonicParsing="false" onAction="#selectOption4">
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                        </CheckBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
