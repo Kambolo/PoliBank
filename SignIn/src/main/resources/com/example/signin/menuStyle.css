@@ -1,0 +1,29 @@
+#title{
+    -fx-background-color: #145d90;
+}
+
+#contentContainer{
+    -fx-background-color: #E9F4F6;
+}
+
+#menuContainer{
+    -fx-background-color: #145d90;
+}
+
+#titleLabel{
+    -fx-text-fill: white;
+    -fx-font-family: Tahoma;
+    -fx-font-size: 20;
+}
+
+#contentTitle{
+    -fx-text-fill: black;
+    -fx-font-family: Tahoma;
+    -fx-font-size: 16;
+}
+
+#dateLabel, #timeLabel{
+    -fx-font-family: Tahoma;
+    -fx-text-fill: white;
+    -fx-font-size: 12;
+}

@@ -14,7 +14,7 @@
    <top>
       <AnchorPane prefHeight="60.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="233.0" layoutY="23.0" text="Lokaty" />
+            <Label fx:id="contentTitle" layoutX="233.0" layoutY="23.0" text="Lokaty" />
          </children>
       </AnchorPane>
    </top>
