@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Kontroler history.fxml
+ */
 public class HistoryController {
     @FXML
     private TableView<HistoryElement> operationsTable;

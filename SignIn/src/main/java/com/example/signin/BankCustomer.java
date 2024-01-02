@@ -13,6 +13,12 @@ import java.time.LocalDate;
 
 import static java.math.BigDecimal.ROUND_DOWN;
 
+/**
+ * Klasa implementujaca uzytkownika banku
+ * @inherits User
+ * @implements BankOperations
+ * @implements Serializable
+ */
 public class BankCustomer extends User implements BankOperations, Serializable {
     private Wallet wallet;
     private int id;

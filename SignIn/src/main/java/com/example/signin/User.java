@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Klasa abstrakcyjna stanowiaca szkielet BankCustomer do dziedziczenia
+ * @implements Serializable
  */
 public abstract class User implements Serializable {
     private String name, lastname, email, plec, password;

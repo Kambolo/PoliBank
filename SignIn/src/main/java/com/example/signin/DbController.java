@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 
+/**
+ * Klasa odpowiedzialna za polaczenie z baza danych
+ */
 public class DbController {
     private String url;
     private String username;

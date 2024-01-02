@@ -10,6 +10,9 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Kontroler payment.fxml
+ */
 public class PaymentController {
 
     @FXML

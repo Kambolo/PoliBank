@@ -16,6 +16,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Random;
 
+/**
+ * Kontroler signUp.fxml
+ */
 public class SignUpController {
     private Stage stage;
     private Scene scene;
@@ -53,6 +56,11 @@ public class SignUpController {
         setDbController(Main.getDbController());
     }
 
+    /**
+     * Zmiana okna na ekran logowania
+     * @param evt wcisniecie przycisku
+     * @throws IOException
+     */
     public void switchToSignIn(ActionEvent evt) throws IOException {
         root = FXMLLoader.load(getClass().getResource("signIn.fxml"));
         scene = new Scene(root);
@@ -62,6 +70,11 @@ public class SignUpController {
         stage.show();
     }
 
+    /**
+     * Zmiana okna na ekran bledu przy rejestracji
+     * @param evt wcisniecie przycisku
+     * @throws IOException
+     */
     public void switchToSignUpError(ActionEvent evt) throws IOException {
         root = FXMLLoader.load(getClass().getResource("signUpError.fxml"));
         scene = new Scene(root);
@@ -71,7 +84,16 @@ public class SignUpController {
         stage.show();
     }
 
+    /**
+     * Metoda inicjujaca rejestracje uzytkownika
+     * @param evt wcisniecie przycisku
+     * @throws IOException
+     * @throws SQLException
+     */
     public void signUp(ActionEvent evt) throws IOException, SQLException {
+        /**
+         * Anonimowe wywolanie metody signUp
+         */
         SignUpOperation signUpOperation = new SignUpOperation() {
             @Override
             public void signUp() throws SQLException, IOException {

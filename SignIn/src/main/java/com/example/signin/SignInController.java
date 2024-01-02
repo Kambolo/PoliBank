@@ -18,6 +18,9 @@ import java.time.LocalDate;
 
 import static com.example.signin.Main.*;
 
+/**
+ * Kontroler singIn.fxml
+ */
 public class SignInController {
     private Stage stage;
     private Scene scene;

@@ -4,6 +4,10 @@ import javafx.event.ActionEvent;
 
 import java.net.URI;
 import java.awt.Desktop;
+
+/**
+ * Kontroler authors.fxml
+ */
 public class AuthorsController {
 
     /**

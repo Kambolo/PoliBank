@@ -20,6 +20,9 @@ import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Kontroler desktop.fxml
+ */
 public class DesktopController {
     @FXML
     private Label personalDataLabel;
@@ -46,7 +49,7 @@ public class DesktopController {
     private ObservableList<DepositElement> elements;
 
     @FXML
-    public  void initialize(){
+    public void initialize(){
         setDbController(Main.getDbController());
         setBankCustomer(Main.getBankCustomer());
         personalDataLabel.setText(getBankCustomer().getName() + " " + getBankCustomer().getLastname());

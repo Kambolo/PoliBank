@@ -5,6 +5,9 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ * Klasa odpowiedzialna za widocznosc komunikatow oraz dostepnosc pol TextField w SignUpController
+ */
 public class PasswordViewModel {
     private StringProperty passwd1Property = new SimpleStringProperty();
     private StringProperty passwd2Property = new SimpleStringProperty();

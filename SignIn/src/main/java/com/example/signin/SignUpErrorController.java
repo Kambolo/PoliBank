@@ -9,6 +9,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Kontroler signUpError.fxml
+ */
 public class SignUpErrorController {
     private Stage stage;
     private Scene scene;

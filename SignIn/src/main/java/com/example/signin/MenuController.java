@@ -147,6 +147,16 @@ public class MenuController {
     }
 
     /**
+     * Zamiana zawartośći głownego kontenera z treścią na panel ustawien
+     * @param evt zdażenie(wciśnięcie przycisku)
+     * @throws IOException
+     */
+    public void settingsPanel(ActionEvent evt) throws IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("settings.fxml"));
+        getContentContainer().setCenter(loader.load());
+    }
+
+    /**
      * Wywolanie metody logOut w celu wylogowania uzytkownika
      * @param evt zdażenie(wciśnięcie przycisku)
      * @throws SQLException

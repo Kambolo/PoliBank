@@ -10,6 +10,9 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * Kontroler paycheck.fxml
+ */
 public class PaycheckController {
     @FXML
     private TextField paycheckValue;

@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Kontroler deposis.fxml
+ * Kontroler deposit.fxml
  */
 public class DepositController {
     @FXML
