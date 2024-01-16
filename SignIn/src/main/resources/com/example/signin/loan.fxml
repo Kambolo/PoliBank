@@ -49,5 +49,6 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <Label layoutX="70.0" layoutY="175.0" text="*Oprocentowanie: 6msc - 5%, 12msc - 7%, 18msc 9%" />
    </children>
 </AnchorPane>
