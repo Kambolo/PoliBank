@@ -10,13 +10,17 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signin.MenuController">
    <top>
       <AnchorPane fx:id="title" prefHeight="65.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Button layoutX="516.0" layoutY="88.0" mnemonicParsing="false" onAction="#logOut" prefWidth="85.0" text="Wyloguj" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="525.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0" />
-            <Label fx:id="titleLabel" layoutX="261.0" layoutY="20.0" prefHeight="26.0" prefWidth="78.0" text="PoliBank" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="261.0" AnchorPane.rightAnchor="261.4" AnchorPane.topAnchor="20.0" />
+            <Label fx:id="titleLabel" layoutX="261.0" layoutY="12.0" prefHeight="33.0" prefWidth="122.0" text="PoliBank" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="261.0" AnchorPane.rightAnchor="240.0" AnchorPane.topAnchor="12.0">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font></Label>
          </children>
       </AnchorPane>
    </top>
@@ -30,7 +34,7 @@
                 <MenuItem mnemonicParsing="false" onAction="#paycheckPanel" text="Wypłata" />
                   <MenuItem mnemonicParsing="false" onAction="#transferPanel" text="Przelew" />
                   <MenuItem fx:id="exchange" mnemonicParsing="false" onAction="#exchangePanel" text="Wymiana waluty" />
-                  <MenuItem mnemonicParsing="false" text="Pozyczka" />
+                  <MenuItem mnemonicParsing="false" onAction="#loanPanel" text="Pozyczka" />
                   <MenuItem mnemonicParsing="false" onAction="#depositPanel" text="Lokata" />
               </items>
             </MenuButton>

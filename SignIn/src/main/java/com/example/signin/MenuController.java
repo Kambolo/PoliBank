@@ -77,6 +77,16 @@ public class MenuController {
     }
 
     /**
+     * Zamiana zawartośći głownego kontenera z treścią na panel pożykowy
+     * @param evt zdażenie(wciśnięcie przycisku)
+     * @throws IOException
+     */
+    public void loanPanel(ActionEvent evt) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("loan.fxml"));
+        getContentContainer().setCenter(loader.load());
+    }
+
+    /**
      * Zamiana zawartośći głownego kontenera z treścią na pulpit
      * @param evt zdażenie(wciśnięcie przycisku)
      * @throws IOException

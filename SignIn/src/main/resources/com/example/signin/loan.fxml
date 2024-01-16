@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="335.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.signin.LoanController">
+   <children>
+      <CheckBox fx:id="sel1" layoutX="78.0" layoutY="151.0" mnemonicParsing="false" onAction="#selectSel1" text="6 msc" />
+      <CheckBox fx:id="sel2" layoutX="170.0" layoutY="151.0" mnemonicParsing="false" onAction="#selectSel2" text="12 msc" />
+      <CheckBox fx:id="sel3" layoutX="259.0" layoutY="151.0" mnemonicParsing="false" onAction="#selectSel3" text="18 msc" />
+      <Label layoutX="146.0" layoutY="112.0" text="Czas trwania">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <TextField fx:id="loanValue" layoutX="76.0" layoutY="62.0" prefHeight="25.0" prefWidth="248.0" />
+      <Label layoutX="331.0" layoutY="61.0" text="zł">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="77.0" layoutY="23.0" text="Kwota">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="getLoan" layoutX="360.0" layoutY="251.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="91.0" text="Weź pożyczkę" />
+      <Label layoutX="70.0" layoutY="200.0" text="Rata : ">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="70.0" layoutY="257.0" text="RRSO:">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Label>
+      <Label fx:id="rata" layoutX="149.0" layoutY="204.0" text="Label">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="rrso" layoutX="149.0" layoutY="261.0" text="Label">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
