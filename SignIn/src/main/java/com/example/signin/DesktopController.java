@@ -23,7 +23,8 @@ import static com.example.signin.Main.getBankCustomer;
 import static com.example.signin.Main.getDbController;
 
 /**
- * Kontroler desktop.fxml
+ * Klasa DesktopController jest kontrolerem interfejsu użytkownika dla pliku FXML "desktop.fxml".
+ * Odpowiada za obsługę interakcji użytkownika oraz wyświetlanie informacji na interfejsie.
  */
 public class DesktopController {
     @FXML
@@ -57,7 +58,13 @@ public class DesktopController {
     private Label installmentDate;
     @FXML
     private Button payInstallment;
+    @FXML
+    private Label loanWarrning;
 
+    /**
+     * Inicjalizacja kontrolera.
+     * Ustawia początkowe wartości kontrolek, rejestruje obserwatorów, oraz inicjalizuje dane.
+     */
     @FXML
     public void initialize() {
         setDbController(Main.getDbController());
@@ -65,6 +72,7 @@ public class DesktopController {
         personalDataLabel.setText(getBankCustomer().getName() + " " + getBankCustomer().getLastname());
         accNrLabel.setText(getBankCustomer().getAccNumber());
         valueLabel.textProperty().bind(valueProperty);
+        loanWarrning.setText("");
 
         currencyID.setValue(choices.get(0));
         currencyID.setItems(choices);
@@ -157,6 +165,9 @@ public class DesktopController {
             if(LocalDate.now().isAfter(LocalDate.parse(data))) getBankCustomer().capitalization(e.getId(), e.getSum(), e.getPercent());
         }
     }
+    /**
+     * Metoda sprawdzająca, czy użytkownik posiada aktywną pożyczkę.
+     */
     private void checkIfLoanIsTaken() throws SQLException {
         boolean activeLoan=false;
         try {
@@ -224,8 +235,8 @@ public class DesktopController {
     }
 
     /**
-     * Metoda aktywująca się wcisnięciem przycisku "spłać rate"
-     * @param actionEvent
+     * Metoda aktywująca się po naciśnięciu przycisku "Spłać ratę".
+     * @param actionEvent Zdarzenie akcji przycisku.
      * @throws SQLException
      */
     public void payInstallment(javafx.event.ActionEvent actionEvent) throws SQLException {
@@ -239,17 +250,49 @@ public class DesktopController {
                 Main.getBankCustomer().setActiveLoan(null);
                 Main.getBankCustomer().delLoan();
             } else {
-                installmentCounter.setText(String.valueOf(loan.getInstallmentsMax() - loan.getInstallmentCount()));
-                installmentDate.setText(String.valueOf(loan.getCurrInstallmentDate()));
-                Main.getBankCustomer().payInstallment(loan.getInstallmentValue());
+                if(!Main.getBankCustomer().payInstallment(loan.getInstallmentValue())){
+                    loanWarrning.setText("Nie masz wystarczających srodków");
+                }
+                else{
+                    installmentCounter.setText(String.valueOf(loan.getInstallmentsMax() - loan.getInstallmentCount()));
+                    installmentDate.setText(String.valueOf(loan.getCurrInstallmentDate()));
+                }
             }
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
-    public BankCustomer getBankCustomer() {return bankCustomer;}
-    public void setBankCustomer(BankCustomer bankCustomer) {this.bankCustomer = bankCustomer;}
-    public DbController getDbController() {return dbController;}
-    public void setDbController(DbController dbController) {this.dbController = dbController;}
+
+    /**
+     * Metoda zwracająca obiekt BankCustomer związany z kontrolerem.
+     * @return Obiekt BankCustomer.
+     */
+    public BankCustomer getBankCustomer() {
+        return bankCustomer;
+    }
+
+    /**
+     * Metoda ustawiająca obiekt BankCustomer związany z kontrolerem.
+     * @param bankCustomer Nowy obiekt BankCustomer.
+     */
+    public void setBankCustomer(BankCustomer bankCustomer) {
+        this.bankCustomer = bankCustomer;
+    }
+
+    /**
+     * Metoda zwracająca obiekt DbController związany z kontrolerem.
+     * @return Obiekt DbController.
+     */
+    public DbController getDbController() {
+        return dbController;
+    }
+
+    /**
+     * Metoda ustawiająca obiekt DbController związany z kontrolerem.
+     * @param dbController Nowy obiekt DbController.
+     */
+    public void setDbController(DbController dbController) {
+        this.dbController = dbController;
+    }
 
 }

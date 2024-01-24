@@ -420,7 +420,6 @@ public class BankCustomer extends User implements BankOperations, Serializable {
 
             query = "INSERT INTO registers VALUES (NULL, '%d','udzielenie_pozyczki%s', '%s')".formatted(getId(), value.setScale(2, ROUND_DOWN).doubleValue(), startdate);
             getDbController().getStatement().executeUpdate(query);
-            System.out.println("kk");
         } catch (SQLException e) {
             System.out.println(e);
         } catch (ClassNotFoundException e) {

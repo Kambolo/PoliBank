@@ -23,19 +23,22 @@ import java.util.ResourceBundle;
 import static com.example.signin.Main.getBankCustomer;
 import static com.example.signin.Main.getDbController;
 
+
+/**
+ * Klasa ExchangeController jest kontrolerem interfejsu użytkownika dla pliku FXML "exchange.fxml".
+ * Odpowiada za obsługę operacji wymiany walut.
+ */
 public class ExchangeController implements Initializable {
+
+    // Deklaracje kontrolek JavaFX, oznaczone adnotacją @FXML
     @FXML
     private ChoiceBox<String> currencyID;
-
-    private final ObservableList<String> choices = FXCollections.observableArrayList("EUR","GBP", "USD");
-
     @FXML
     private Button submit;
     @FXML
     private TextField exchangeValue;
     @FXML
     private Label afterExchangeValue;
-    Currencies currencies;
     @FXML
     private Label currency;
     @FXML
@@ -44,7 +47,6 @@ public class ExchangeController implements Initializable {
     private Label gbpRate;
     @FXML
     private Label usdRate;
-
     @FXML
     private Label plnID;
     @FXML
@@ -54,8 +56,18 @@ public class ExchangeController implements Initializable {
     @FXML
     private Label usdID;
 
+    // Inne pola klasy
+    private final ObservableList<String> choices = FXCollections.observableArrayList("EUR","GBP", "USD");
+    private Currencies currencies;
+
+    /**
+     * Metoda inicjalizacyjna, wywoływana podczas inicjalizacji kontrolera.
+     * Inicjalizuje widok oraz ustawia domyślne wartości kontrolek.
+     * @param url Adres URL pliku FXML.
+     * @param resourceBundle Zasób związany z danym obiektem ResourceBundle.
+     */
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         currencies = new Currencies();
         currencyID.setValue(choices.get(0));
         currencyID.setItems(choices);
@@ -69,36 +81,42 @@ public class ExchangeController implements Initializable {
         gbpID.setText(String.valueOf(getBankCustomer().getWallet().getGbp()));
         usdID.setText(String.valueOf(getBankCustomer().getWallet().getUsd()));
 
-        exchangeValue.textProperty().addListener((observable, oldValue, newValue)->{
-            try{
+        // Dodanie obserwatora dla pola wymiany walut, reagującego na zmiany wartości
+        exchangeValue.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
                 if (newValue != null && !newValue.isEmpty()) {
                     double val = Double.parseDouble(newValue);
                     double result = getResult(val);
-
                     afterExchangeValue.setText(String.valueOf(result));
                 } else {
                     afterExchangeValue.setText("0");
                 }
-            }catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 afterExchangeValue.setText("Invalid Input");
             }
         });
 
-        currencyID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)->{
-            try{
+        // Dodanie obserwatora dla wyboru waluty, reagującego na zmiany wybranej waluty
+        currencyID.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            try {
                 currency.setText(newValue);
-                if(exchangeValue.getText() == null)  afterExchangeValue.setText("0");
-                else{
+                if (exchangeValue.getText() == null)  afterExchangeValue.setText("0");
+                else {
                     double val = Double.parseDouble(exchangeValue.getText());
                     double result = getResult(val);
                     afterExchangeValue.setText(String.valueOf(result));
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println("Error!");
             }
         });
     }
 
+    /**
+     * Metoda obliczająca wartość wymiany walut na podstawie podanej wartości wejściowej.
+     * @param val Wartość wejściowa.
+     * @return Wartość wymiany.
+     */
     private double getResult(double val) {
         double multiplier = switch (currencyID.getValue()) {
             case "EUR" -> currencies.getEurSell();
@@ -106,15 +124,21 @@ public class ExchangeController implements Initializable {
             case "USD" -> currencies.getUsdSell();
             default -> 0.0d;
         };
-        BigDecimal result = BigDecimal.valueOf(val/multiplier).setScale(2, RoundingMode.HALF_DOWN);
+        BigDecimal result = BigDecimal.valueOf(val / multiplier).setScale(2, RoundingMode.HALF_DOWN);
         return result.doubleValue();
     }
 
+    /**
+     * Obsługa zdarzenia naciśnięcia przycisku "Zatwierdź".
+     * @param evt Zdarzenie akcji przycisku.
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public void clickedOnExchange(ActionEvent evt) throws ClassNotFoundException, SQLException {
         String firstCurr = "pln";
         String secondCurr = currencyID.getValue().toLowerCase();
 
-        if(exchangeValue.getText().isEmpty()) return;
+        if (exchangeValue.getText().isEmpty()) return;
 
         double firstV = Double.parseDouble(exchangeValue.getText());
         double secondV = Double.parseDouble(afterExchangeValue.getText());
@@ -125,5 +149,4 @@ public class ExchangeController implements Initializable {
         gbpID.setText(String.valueOf(getBankCustomer().getWallet().getGbp()));
         usdID.setText(String.valueOf(getBankCustomer().getWallet().getUsd()));
     }
-
 }

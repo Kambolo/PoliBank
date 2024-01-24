@@ -19,12 +19,13 @@ import java.time.LocalDate;
 import static com.example.signin.Main.*;
 
 /**
- * Kontroler singIn.fxml
+ * Kontroler obsługujący interakcje użytkownika z widokiem singIn.fxml.
  */
 public class SignInController {
     private Stage stage;
     private Scene scene;
     private Parent root;
+
     @FXML
     TextField emailField;
     @FXML
@@ -32,6 +33,11 @@ public class SignInController {
     @FXML
     Label wrongData;
 
+    /**
+     * Przełącza na widok rejestracji (signUp.fxml).
+     * @param evt Zdarzenie akcji przycisku "Zarejestruj się".
+     * @throws IOException Błąd podczas ładowania pliku FXML.
+     */
     public void switchToSignUp(ActionEvent evt) throws IOException {
         root = FXMLLoader.load(getClass().getResource("signUp.fxml"));
         scene = new Scene(root);
@@ -41,6 +47,12 @@ public class SignInController {
         stage.show();
     }
 
+    /**
+     * Obsługuje logowanie użytkownika.
+     * @param evt Zdarzenie akcji przycisku "Zaloguj się".
+     * @throws SQLException Błąd podczas operacji na bazie danych.
+     * @throws ClassNotFoundException Błąd podczas ładowania klasy sterownika JDBC.
+     */
     public void logIn(ActionEvent evt) throws SQLException, ClassNotFoundException {
         String email = emailField.getText();
         String password = passwordField.getText();
@@ -99,8 +111,8 @@ public class SignInController {
                         query = "INSERT INTO registers VALUES (NULL, '%d', 'zalogowano', '%s')".formatted(id, date);
                         getDbController().getStatement().executeUpdate(query);
 
-                        BankCustomer customer = new BankCustomer(id, email, name, lastname, validPassword, accNr);
-                        setBankCustomer(customer);
+                        User customer = new BankCustomer(id, email, name, lastname, validPassword, accNr);
+                        setBankCustomer((BankCustomer) customer); //wywołanie polimorficzne
                         switchToDesktop(evt);
                     }
                     else{
@@ -119,7 +131,11 @@ public class SignInController {
         signInOperation.signIn(email, password);
     }
 
-
+    /**
+     * Przełącza na widok głównego menu (menu.fxml).
+     * @param evt Zdarzenie akcji przycisku.
+     * @throws IOException Błąd podczas ładowania pliku FXML.
+     */
     private void switchToDesktop(ActionEvent evt) throws IOException {
         root = FXMLLoader.load(this.getClass().getResource("menu.fxml"));
         scene = new Scene(root);
@@ -129,6 +145,11 @@ public class SignInController {
         stage.show();
     }
 
+    /**
+     * Przełącza na widok odzyskiwania hasła (forgottenPassword.fxml).
+     * @param evt Zdarzenie akcji przycisku.
+     * @throws IOException Błąd podczas ładowania pliku FXML.
+     */
     public void switchToFrogottenPass(ActionEvent evt) throws IOException {
         root = FXMLLoader.load(this.getClass().getResource("forgottenPassword.fxml"));
         scene = new Scene(root);
