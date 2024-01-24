@@ -20,18 +20,74 @@ import static java.math.BigDecimal.ROUND_DOWN;
  * @implements Serializable
  */
 public class BankCustomer extends User implements BankOperations, Serializable {
+    /**
+     * Portfel klienta przechowujący saldo w różnych walutach.
+     */
     private Wallet wallet;
+
+    /**
+     * Unikalny identyfikator klienta.
+     */
     private int id;
+
+    /**
+     * Kontroler bazy danych (DbController), oznaczony jako transient, aby nie był serializowany.
+     */
     private transient DbController dbController;
+
+    /**
+     * Numer konta klienta.
+     */
     private String accNumber;
+
+    /**
+     * Flaga informująca, czy klient jest zalogowany.
+     */
     private boolean ifLogOut;
 
-    public class Wallet implements Serializable{
-        private BigDecimal pln, eur, gbp, usd;
+    /**
+     * Aktywny element pożyczki przypisany do klienta.
+     */
+    private LoanElement activeLoan;
 
+    /**
+     * Klasa wewnętrzna reprezentująca portfel klienta, implementująca interfejs Serializable.
+     */
+    public class Wallet implements Serializable{
+        /**
+         * Saldo w polskich złotych (PLN).
+         */
+        private BigDecimal pln;
+
+        /**
+         * Saldo w euro (EUR).
+         */
+        private BigDecimal eur;
+
+        /**
+         * Saldo w funtach brytyjskich (GBP).
+         */
+        private BigDecimal gbp;
+
+        /**
+         * Saldo w dolarach amerykańskich (USD).
+         */
+        private BigDecimal usd;
+
+        /**
+         * Konstruktor portfela, inicjalizujący salda walut poprzez pobranie danych z bazy danych.
+         *
+         * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+         */
         public Wallet() throws SQLException {
             getCurrencies();
         }
+
+        /**
+         * Metoda prywatna pobierająca salda walut z bazy danych i inicjalizująca nimi pola obiektu.
+         *
+         * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+         */
         private void getCurrencies() throws SQLException {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
@@ -68,6 +124,13 @@ public class BankCustomer extends User implements BankOperations, Serializable {
                 getDbController().getConnection().close();
             }
         }
+        /**
+         * Metoda prywatna aktualizująca saldo wybranej waluty w bazie danych oraz w polu obiektu.
+         *
+         * @param currency Waluta do zaktualizowania.
+         * @param value    Nowa wartość salda.
+         * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+         */
         private void setCurrency(String currency, double value) throws SQLException {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
@@ -101,14 +164,82 @@ public class BankCustomer extends User implements BankOperations, Serializable {
                     break;
             }
         }
-        public void setPln(double pln) throws SQLException {setCurrency("pln", pln);}
-        public BigDecimal getPln() {return this.pln;}
-        public void setEur(double eur) throws SQLException {setCurrency("eur", eur);}
-        public BigDecimal getEur() {return this.eur;}
-        public void setGbp(double gbp) throws SQLException {setCurrency("gbp", gbp);}
-        public BigDecimal getGbp() {return this.gbp;}
-        public void setUsd(double usd) throws SQLException {setCurrency("usd", usd);}
-        public BigDecimal getUsd() {return this.usd;}
+        /**
+         * Metoda ustawiająca saldo w polskich złotych (PLN) w portfelu klienta.
+         *
+         * @param pln Nowa wartość salda w PLN.
+         * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+         */
+        public void setPln(double pln) throws SQLException {
+            setCurrency("pln", pln);
+        }
+
+        /**
+         * Metoda pobierająca saldo w polskich złotych (PLN) z portfela klienta.
+         *
+         * @return Saldo w PLN.
+         */
+        public BigDecimal getPln() {
+            return this.pln;
+        }
+
+        /**
+         * Metoda ustawiająca saldo w euro (EUR) w portfelu klienta.
+         *
+         * @param eur Nowa wartość salda w EUR.
+         * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+         */
+        public void setEur(double eur) throws SQLException {
+            setCurrency("eur", eur);
+        }
+
+        /**
+         * Metoda pobierająca saldo w euro (EUR) z portfela klienta.
+         *
+         * @return Saldo w EUR.
+         */
+        public BigDecimal getEur() {
+            return this.eur;
+        }
+
+        /**
+         * Metoda ustawiająca saldo w funtach brytyjskich (GBP) w portfelu klienta.
+         *
+         * @param gbp Nowa wartość salda w GBP.
+         * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+         */
+        public void setGbp(double gbp) throws SQLException {
+            setCurrency("gbp", gbp);
+        }
+
+        /**
+         * Metoda pobierająca saldo w funtach brytyjskich (GBP) z portfela klienta.
+         *
+         * @return Saldo w GBP.
+         */
+        public BigDecimal getGbp() {
+            return this.gbp;
+        }
+
+        /**
+         * Metoda ustawiająca saldo w dolarach amerykańskich (USD) w portfelu klienta.
+         *
+         * @param usd Nowa wartość salda w USD.
+         * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+         */
+        public void setUsd(double usd) throws SQLException {
+            setCurrency("usd", usd);
+        }
+
+        /**
+         * Metoda pobierająca saldo w dolarach amerykańskich (USD) z portfela klienta.
+         *
+         * @return Saldo w USD.
+         */
+        public BigDecimal getUsd() {
+            return this.usd;
+        }
+
     }
 
     /**
@@ -131,6 +262,7 @@ public class BankCustomer extends User implements BankOperations, Serializable {
         setPassword(password);
         setAccNumber(accNumber);
         setIfLogOut(false);
+        getLoanIfExist();
     }
 
     /**
@@ -260,11 +392,97 @@ public class BankCustomer extends User implements BankOperations, Serializable {
         return false;
     }
 
+    /**
+     * Metoda udzielająca pożyczki klientowi. Zwiększa saldo w PLN portfela o wartość pożyczki,
+     * dodaje wpis o pożyczce do bazy danych loans oraz rejestruje operację w bazie danych registers.
+     *
+     * @param value     Wartość pożyczki.
+     * @param startdate  Data rozpoczęcia pożyczki.
+     * @param endDate    Data zakończenia pożyczki.
+     * @param percent   Procentowe oprocentowanie pożyczki.
+     * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+     */
     @Override
-    public void getLoan() {
+    public void getLoan(BigDecimal value, LocalDate startdate, LocalDate endDate, double percent) throws SQLException {
+        try{
 
+            double newValue = getWallet().getPln().setScale(2, ROUND_DOWN).add(value.setScale(2)).doubleValue();
+            getWallet().setPln(newValue);
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+            getDbController().setStatement(getDbController().getConnection().createStatement());
+
+            String query;
+
+            query = "INSERT INTO loans VALUES (NULL, " + getId() + ", " + value + ", '%s', '%s', ".formatted(startdate, endDate) + percent + ")";
+            getDbController().getStatement().executeUpdate(query);
+
+            query = "INSERT INTO registers VALUES (NULL, '%d','udzielenie_pozyczki%s', '%s')".formatted(getId(), value.setScale(2, ROUND_DOWN).doubleValue(), startdate);
+            getDbController().getStatement().executeUpdate(query);
+            System.out.println("kk");
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        finally {
+            getDbController().getStatement().close();
+            getDbController().getConnection().close();
+        }
     }
 
+    /**
+     * Metoda realizująca spłatę raty pożyczki. Redukuje saldo w PLN portfela o wartość raty.
+     *
+     * @param val Wartość raty do spłaty.
+     * @return true, jeśli operacja została zrealizowana pomyślnie; false, jeśli brakuje środków na koncie.
+     * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+     */
+    public boolean payInstallment(double val) throws SQLException {
+        if(!isEnough(val)) return false;
+
+        getWallet().setPln(getWallet().getPln().subtract(BigDecimal.valueOf(val)).doubleValue());
+        return true;
+    }
+
+    /**
+     * Metoda usuwająca pożyczkę klienta. Usuwa wpisy związane z pożyczką z bazy danych loans.
+     *
+     * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+     */
+    public void delLoan() throws SQLException {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+            getDbController().setStatement(getDbController().getConnection().createStatement());
+
+            String query;
+
+            query = "DELETE FROM loans WHERE idCustomer=" + id;
+            getDbController().getStatement().executeUpdate(query);
+        } catch (SQLException e) {
+            System.out.println(e);
+        } catch (ClassNotFoundException e) {
+            System.out.println(e);
+        }
+        finally {
+            getDbController().getStatement().close();
+            getDbController().getConnection().close();
+        }
+    }
+
+    /**
+     * Metoda umożliwiająca dokonanie wpłaty na konto. Redukuje saldo w PLN portfela o wartość wpłaty,
+     * dodaje wpis o depozycie do bazy danych deposis oraz rejestruje operację w bazie danych registers.
+     *
+     * @param value     Wartość depozytu.
+     * @param startDate Data rozpoczęcia depozytu.
+     * @param endDate   Data zakończenia depozytu.
+     * @param percent   Procentowe oprocentowanie depozytu.
+     * @return true, jeśli operacja została zrealizowana pomyślnie; false, jeśli brakuje środków na koncie.
+     * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+     */
     @Override
     public boolean makeDeposit(BigDecimal value, LocalDate startDate, LocalDate endDate, double percent) throws SQLException {
         if (!isEnough(value.doubleValue())) return false;
@@ -297,6 +515,16 @@ public class BankCustomer extends User implements BankOperations, Serializable {
         }
         return false;
     }
+
+    /**
+     * Metoda umożliwiająca wymianę jednej waluty na inną. Redukuje saldo w PLN portfela o wartość wymienianej waluty,
+     * dodaje odpowiednią kwotę do drugiej waluty w portfelu oraz rejestruje operację w bazie danych registers.
+     *
+     * @param firstValue   Wartość waluty do wymiany.
+     * @param secondCurr   Druga waluta, na którą wymieniamy.
+     * @param secondValue  Wartość wymienianej waluty w drugiej walucie.
+     * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+     */
     @Override
     public void exchange(BigDecimal firstValue, String secondCurr, BigDecimal secondValue) throws SQLException {
         BigDecimal temp;
@@ -348,16 +576,114 @@ public class BankCustomer extends User implements BankOperations, Serializable {
             getDbController().getConnection().close();
         }
     }
-    public Wallet getWallet(){return this.wallet;}
-    private void setWallet(Wallet wallet) {this.wallet = wallet;}
-    public DbController getDbController() {return dbController;}
-    public void setDbController(DbController dbController) {this.dbController = dbController;}public int getId() {return id;}
-    public void setId(int id) {this.id = id;}
-    public String getAccNumber() {return accNumber;}
-    public void setAccNumber(String accNumber) {this.accNumber = accNumber;}
-    public boolean isIfLogOut() {return ifLogOut;}
-    public void setIfLogOut(boolean ifLogOut) {this.ifLogOut = ifLogOut;}
 
+    /**
+     * Metoda zwracająca obiekt portfela klienta.
+     *
+     * @return Obiekt portfela klienta.
+     */
+    public Wallet getWallet() {
+        return this.wallet;
+    }
+
+    /**
+     * Metoda prywatna ustawiająca portfel klienta.
+     *
+     * @param wallet Nowy portfel klienta.
+     */
+    private void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
+    /**
+     * Metoda zwracająca kontroler bazy danych.
+     *
+     * @return Kontroler bazy danych.
+     */
+    public DbController getDbController() {
+        return dbController;
+    }
+
+    /**
+     * Metoda ustawiająca kontroler bazy danych.
+     *
+     * @param dbController Nowy kontroler bazy danych.
+     */
+    public void setDbController(DbController dbController) {
+        this.dbController = dbController;
+    }
+    /**
+     * Metoda ustawiająca identyfikator klienta.
+     *
+     * @param id Nowy identyfikator klienta.
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Metoda zwracająca identyfikator klienta.
+     *
+     * @return Identyfikator klienta.
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Metoda zwracająca numer konta klienta.
+     *
+     * @return Numer konta klienta.
+     */
+    public String getAccNumber() {
+        return accNumber;
+    }
+
+    /**
+     * Metoda ustawiająca numer konta klienta.
+     *
+     * @param accNumber Nowy numer konta klienta.
+     */
+    public void setAccNumber(String accNumber) {
+        this.accNumber = accNumber;
+    }
+
+    /**
+     * Metoda sprawdzająca, czy klient jest wylogowany.
+     *
+     * @return true, jeśli klient jest wylogowany; false w przeciwnym przypadku.
+     */
+    public boolean isIfLogOut() {
+        return ifLogOut;
+    }
+
+    /**
+     * Metoda ustawiająca status wylogowania klienta.
+     *
+     * @param ifLogOut Nowy status wylogowania klienta.
+     */
+    public void setIfLogOut(boolean ifLogOut) {
+        this.ifLogOut = ifLogOut;
+    }
+
+    /**
+     * Metoda zwracająca aktywny element pożyczki klienta.
+     *
+     * @return Aktywny element pożyczki klienta.
+     */
+    public LoanElement getActiveLoan() {
+        return activeLoan;
+    }
+
+    /**
+     * Metoda ustawiająca aktywny element pożyczki klienta.
+     *
+     * @param activeLoan Nowy aktywny element pożyczki klienta.
+     */
+    public void setActiveLoan(LoanElement activeLoan) {
+        this.activeLoan = activeLoan;
+    }
+    
     /**
      * Kapitalizacja odsetek lokaty, doladaowanie portfela oraz usuniecie lokaty z bazy
      * @param idDeposit id lokaty
@@ -485,6 +811,51 @@ public class BankCustomer extends User implements BankOperations, Serializable {
             System.out.println(e);
         } catch (ClassNotFoundException e) {
             System.out.println(e);
+        }
+        finally {
+            getDbController().getStatement().close();
+            getDbController().getConnection().close();
+        }
+    }
+
+    /**
+     * Metoda prywatna sprawdzająca istnienie aktywnej pożyczki klienta w bazie danych.
+     * Jeżeli pożyczka istnieje, ustawia aktywny element pożyczki na odpowiedni obiekt klasy LoanElement.
+     * W przeciwnym przypadku ustawia aktywny element pożyczki na null.
+     *
+     * @throws SQLException Wyjątek rzucany w przypadku problemów z bazą danych.
+     */
+    private void getLoanIfExist() throws SQLException {
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            getDbController().setConnection(DriverManager.getConnection(getDbController().getUrl(), getDbController().getUsername(), getDbController().getPassword()));
+            getDbController().setStatement(getDbController().getConnection().createStatement());
+
+            String query;
+            ResultSet resultSet;
+
+            query = "SELECT sum, startDate, endDate, percent FROM loans WHERE idCustomer=" + id;
+
+            resultSet = getDbController().getStatement().executeQuery(query);
+            LoanElement loan;
+            String sum, startDate, endDate, percent;
+
+            if(resultSet.next()){
+                sum = resultSet.getString("sum");
+                startDate = resultSet.getString("startDate");
+                endDate = resultSet.getString("endDate");
+                percent = resultSet.getString("percent");
+
+                loan = new LoanElement(LocalDate.parse(startDate), LocalDate.parse(endDate), Double.parseDouble(sum), Double.parseDouble(percent));
+                setActiveLoan(loan);
+            }
+            else{
+                setActiveLoan(null);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
         finally {
             getDbController().getStatement().close();
